@@ -7,6 +7,7 @@ package com.zelone.engine;
 
 import com.sun.prism.impl.BufferUtil;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import org.lwjgl.BufferUtils;
@@ -21,12 +22,14 @@ import org.lwjgl.opengl.GL30;
  */
 public class Loader
 {
-private List<Integer> vaos = new ArrayList<Integer>();
-private List<Integer> vbos = new ArrayList<Integer>();
 
-    public RawModel loadoVAO(float[] postions)
+    private List<Integer> vaos = new ArrayList<Integer>();
+    private List<Integer> vbos = new ArrayList<Integer>();
+
+    public RawModel loadoVAO(float[] postions,int[] indeces)
     {
         int vaoID = createVAO();
+        bindIndicesBuffer(indeces);
         storeDataInAttributeList(0, postions);
         unbindVAO();
         return new RawModel(vaoID, postions.length / 3);
@@ -45,7 +48,7 @@ private List<Integer> vbos = new ArrayList<Integer>();
         int vboID = GL15.glGenBuffers();
         vbos.add(vboID);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
-        FloatBuffer buffer=storeDataInFloatBuffer(data);
+        FloatBuffer buffer = storeDataInFloatBuffer(data);
         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
         GL20.glVertexAttribPointer(attributeNumber, 3, GL11.GL_FLOAT, false, 0, 0);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
@@ -53,20 +56,36 @@ private List<Integer> vbos = new ArrayList<Integer>();
 
     private void unbindVAO()
     {
-
         GL30.glBindVertexArray(0);
-
     }
-    
-    private FloatBuffer storeDataInFloatBuffer(float[] data){
-    
-        FloatBuffer buffer= BufferUtils.createFloatBuffer(data.length);
+
+    private void bindIndicesBuffer(int[] indeces)
+    {
+        int vboID = GL15.glGenBuffers();
+        vbos.add(vboID);
+        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboID);
+        IntBuffer buffer = storeDataInIntBuffer(indeces);
+        GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
+    }
+
+    private IntBuffer storeDataInIntBuffer(int[] data)
+    {
+        IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
         buffer.put(data);
         buffer.flip();
         return buffer;
     }
-    
-    public void cleanUp(){
+
+    private FloatBuffer storeDataInFloatBuffer(float[] data)
+    {
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
+        buffer.put(data);
+        buffer.flip();
+        return buffer;
+    }
+
+    public void cleanUp()
+    {
         for (Integer vao : vaos) {
             GL30.glDeleteVertexArrays(vao);
         }
@@ -75,4 +94,3 @@ private List<Integer> vbos = new ArrayList<Integer>();
         }
     }
 }
-
