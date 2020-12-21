@@ -17,6 +17,7 @@ public class StaticShader extends ShaderProgram
     private static final String VERTIX_FILE = "src/com/zelone/shader/vertexShader.glsl";
     private static final String FRAGMENT_FILE = "src/com/zelone/shader/fragmentShader.glsl";
     private int location_transformationMatrix;
+    private int loction_projectionMatrix;
 
     public StaticShader()
     {
@@ -34,11 +35,17 @@ public class StaticShader extends ShaderProgram
     @Override
     protected void getUniformLocations()
     {
+        
         location_transformationMatrix = super.getUniformLocation("transformationMatrix");
+        loction_projectionMatrix = super.getUniformLocation("projectionMatrix");
     }
 
     public void loadTransformationMatrix(Matrix4f matrix)
     {
         super.loadMatrix(location_transformationMatrix, matrix);
     }
+    public void loadProjectionMatrix(Matrix4f matrix){
+    super.loadMatrix(loction_projectionMatrix, matrix);
+    }
 }
+
