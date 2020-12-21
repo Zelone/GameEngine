@@ -5,6 +5,8 @@
  */
 package com.zelone.engine;
 
+import com.zelone.models.RawModel;
+import com.zelone.models.TexturedModel;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
@@ -22,8 +24,8 @@ public class Renderer
         GL11.glClearColor(1, 0, 0, 1);
     }
 
-    public void render(RawModel model)
-    {
+    public void render(TexturedModel texturedModel)
+    {   RawModel model=texturedModel.getRawModel();
         GL30.glBindVertexArray(model.getVaoID());
         GL20.glEnableVertexAttribArray(0);
         GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(),GL11.GL_UNSIGNED_INT,0);

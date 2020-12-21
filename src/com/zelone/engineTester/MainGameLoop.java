@@ -7,8 +7,11 @@ package com.zelone.engineTester;
 
 import com.zelone.engine.DisplayManager;
 import com.zelone.engine.Loader;
-import com.zelone.engine.RawModel;
+import com.zelone.models.RawModel;
 import com.zelone.engine.Renderer;
+import com.zelone.models.TexturedModel;
+import com.zelone.shader.StaticShader;
+import com.zelone.texture.ModelTexture;
 import org.lwjgl.opengl.Display;
 
 /**
@@ -20,10 +23,9 @@ public class MainGameLoop
     public static void main(String[] args)
     {
         DisplayManager.createDisplay();
-        
         Loader loader =new Loader();
         Renderer renderer = new Renderer();
-        
+        StaticShader shader=new StaticShader();
         //RECTANGLE MODEL
         float[] vertices = {
             -0.5f,0.5f ,0f,  //v0
@@ -33,20 +35,30 @@ public class MainGameLoop
         };
         
         int[] indices={
-        0,1,3,
-        3,1,2
+            0,1,3,
+            3,1,2
         };
         
-        RawModel model=loader.loadToVAO(vertices,indices);
-        
+        float[] textureCoords = {
+            0,0,
+            0,1,
+            1,1,
+            1,0
+        };
+        RawModel model=loader.loadToVAO(vertices,textureCoords,indices);
+        ModelTexture texture=new ModelTexture(loader.loadTexture("image"));
+        TexturedModel texturedModel= new TexturedModel(model, texture);
         
         while(!Display.isCloseRequested()){
             renderer.prepare();
             //gamelogic
             //render
-            renderer.render(model);
+            shader.start();
+            renderer.render(texturedModel);
+            shader.stop();
             DisplayManager.updateDisplay();
         }
+        shader.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();
     }
