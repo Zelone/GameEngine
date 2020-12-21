@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zelone.engine;
+package com.zelone.render;
 
 import com.zelone.entities.Entity;
 import com.zelone.models.RawModel;

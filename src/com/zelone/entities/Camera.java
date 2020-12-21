@@ -40,7 +40,13 @@ public class Camera
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
             position.x -= changesOnKeyPressed;
         }
+        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+            position.y += changesOnKeyPressed;
+        }
 
+        if (Keyboard.isKeyDown(Keyboard.KEY_CAPITAL)) {
+            position.y -= changesOnKeyPressed;
+        }
     }
 
     public float getPitch()
