@@ -29,7 +29,7 @@ public class MainGameLoop
             -0.5f,0.5f ,0f,  //v0
             -0.5f,-0.5f,0f,  //v1
             0.5f ,-0.5f,0f,  //v2
-            0.5f ,-0.5f,0f   //v3
+            0.5f ,0.5f ,0f   //v3
         };
         
         int[] indices={
@@ -37,7 +37,7 @@ public class MainGameLoop
         3,1,2
         };
         
-        RawModel model=loader.loadoVAO(vertices,indices);
+        RawModel model=loader.loadToVAO(vertices,indices);
         
         
         while(!Display.isCloseRequested()){

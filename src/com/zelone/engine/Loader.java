@@ -26,13 +26,13 @@ public class Loader
     private List<Integer> vaos = new ArrayList<Integer>();
     private List<Integer> vbos = new ArrayList<Integer>();
 
-    public RawModel loadoVAO(float[] postions,int[] indeces)
+    public RawModel loadToVAO(float[] postions,int[] indeces)
     {
         int vaoID = createVAO();
         bindIndicesBuffer(indeces);
         storeDataInAttributeList(0, postions);
         unbindVAO();
-        return new RawModel(vaoID, postions.length / 3);
+        return new RawModel(vaoID, indeces.length);
     }
 
     private int createVAO()
