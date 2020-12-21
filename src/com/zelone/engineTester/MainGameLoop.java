@@ -9,10 +9,12 @@ import com.zelone.engine.DisplayManager;
 import com.zelone.engine.Loader;
 import com.zelone.models.RawModel;
 import com.zelone.engine.Renderer;
+import com.zelone.entities.Entity;
 import com.zelone.models.TexturedModel;
 import com.zelone.shader.StaticShader;
 import com.zelone.texture.ModelTexture;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  *
@@ -48,13 +50,14 @@ public class MainGameLoop
         RawModel model=loader.loadToVAO(vertices,textureCoords,indices);
         ModelTexture texture=new ModelTexture(loader.loadTexture("image"));
         TexturedModel texturedModel= new TexturedModel(model, texture);
-        
+        Entity entity = new Entity(texturedModel,new Vector3f(0, 0, 0),0,0,0,1);
         while(!Display.isCloseRequested()){
+            entity.incresePostion(0, 0, -0.002f);
             renderer.prepare();
             //gamelogic
             //render
             shader.start();
-            renderer.render(texturedModel);
+            renderer.render(entity, shader);
             shader.stop();
             DisplayManager.updateDisplay();
         }

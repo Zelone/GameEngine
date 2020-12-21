@@ -5,6 +5,8 @@
  */
 package com.zelone.shader;
 
+import org.lwjgl.util.vector.Matrix4f;
+
 /**
  *
  * @author Jhawar
@@ -14,6 +16,7 @@ public class StaticShader extends ShaderProgram
 
     private static final String VERTIX_FILE = "src/com/zelone/shader/vertexShader.glsl";
     private static final String FRAGMENT_FILE = "src/com/zelone/shader/fragmentShader.glsl";
+    private int location_transformationMatrix;
 
     public StaticShader()
     {
@@ -28,4 +31,14 @@ public class StaticShader extends ShaderProgram
         super.bindAttribute(1, "textureCoords");
     }
 
+    @Override
+    protected void getUniformLocations()
+    {
+        location_transformationMatrix = super.getUniformLocation("transformationMatrix");
+    }
+
+    public void loadTransformationMatrix(Matrix4f matrix)
+    {
+        super.loadMatrix(location_transformationMatrix, matrix);
+    }
 }
