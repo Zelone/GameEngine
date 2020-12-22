@@ -6,6 +6,7 @@
 package com.zelone.shader;
 
 import com.zelone.entities.Camera;
+import com.zelone.entities.Light;
 import com.zelone.toolBox.Maths;
 import org.lwjgl.util.vector.Matrix4f;
 
@@ -21,6 +22,8 @@ public class StaticShader extends ShaderProgram
     private int location_transformationMatrix;
     private int loction_projectionMatrix;
     private int location_viewMatrix;
+    private int location_lightColor;
+    private int locaiton_lightPosition;
 
     public StaticShader()
     {
@@ -33,6 +36,7 @@ public class StaticShader extends ShaderProgram
     {
         super.bindAttribute(0, "position");
         super.bindAttribute(1, "textureCoords");
+        super.bindAttribute(2, "normal");
     }
 
     @Override
@@ -41,6 +45,9 @@ public class StaticShader extends ShaderProgram
         location_transformationMatrix = super.getUniformLocation("transformationMatrix");
         loction_projectionMatrix = super.getUniformLocation("projectionMatrix");
         location_viewMatrix = super.getUniformLocation("viewMatrix");
+        locaiton_lightPosition = super.getUniformLocation("lightPositon");
+        location_lightColor = super.getUniformLocation("lightColor");
+
     }
 
     public void loadTransformationMatrix(Matrix4f matrix)
@@ -58,4 +65,11 @@ public class StaticShader extends ShaderProgram
         Matrix4f viewMatrix = Maths.createViewMatrix(camera);
         super.loadMatrix(location_viewMatrix, viewMatrix);
     }
+
+    public void loadLight(Light light)
+    {
+        super.loadVector(locaiton_lightPosition, light.getPosition());
+        super.loadVector(location_lightColor, light.getColor());
+    }
+
 }

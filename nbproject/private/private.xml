@@ -3,19 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/JavaProjects/GameEngine/src/com/zelone/engine/Manager.java</file>
-            <file>file:/E:/JavaProjects/GameEngine/src/com/zelone/engine/DisplayManager.java</file>
-            <file>file:/E:/JavaProjects/GameEngine/src/com/zelone/engine/Loader.java</file>
-            <file>file:/E:/JavaProjects/GameEngine/src/com/zelone/models/RawModel.java</file>
-            <file>file:/E:/JavaProjects/GameEngine/src/com/zelone/shader/StaticShader.java</file>
-            <file>file:/E:/JavaProjects/GameEngine/src/com/zelone/models/TexturedModel.java</file>
-            <file>file:/E:/JavaProjects/GameEngine/src/com/zelone/shader/vertexShader.glsl</file>
-            <file>file:/E:/JavaProjects/GameEngine/src/com/zelone/shader/ShaderProgram.java</file>
+            <file>file:/E:/JavaProjects/GameEngine/src/com/zelone/render/OBJLoader.java</file>
             <file>file:/E:/JavaProjects/GameEngine/src/com/zelone/engineTester/MainGameLoop.java</file>
-            <file>file:/E:/JavaProjects/GameEngine/src/com/zelone/texture/ModelTexture.java</file>
-            <file>file:/E:/JavaProjects/GameEngine/src/com/zelone/engine/Renderer.java</file>
-            <file>file:/E:/JavaProjects/GameEngine/src/com/zelone/engine/Engine.java</file>
-            <file>file:/E:/JavaProjects/GameEngine/src/com/zelone/shader/fragmentShader.glsl</file>
+            <file>file:/E:/JavaProjects/GameEngine/src/com/zelone/entities/Camera.java</file>
         </group>
     </open-files>
 </project-private>
