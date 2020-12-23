@@ -24,6 +24,8 @@ public class StaticShader extends ShaderProgram
     private int location_viewMatrix;
     private int location_lightColor;
     private int locaiton_lightPosition;
+    private int location_reflectivity;
+    private int location_shineDamper;
 
     public StaticShader()
     {
@@ -47,6 +49,8 @@ public class StaticShader extends ShaderProgram
         location_viewMatrix = super.getUniformLocation("viewMatrix");
         locaiton_lightPosition = super.getUniformLocation("lightPositon");
         location_lightColor = super.getUniformLocation("lightColor");
+        location_shineDamper = super.getUniformLocation("shineDamper");
+        location_reflectivity = super.getUniformLocation("reflectivity");
 
     }
 
@@ -66,10 +70,19 @@ public class StaticShader extends ShaderProgram
         super.loadMatrix(location_viewMatrix, viewMatrix);
     }
 
+    public void loadShineVariables(float shineDamper, float reflectivity)
+    {
+        super.loadFloat(location_reflectivity, reflectivity);
+        super.loadFloat(this.location_shineDamper, shineDamper);
+        
+    }
+
+
     public void loadLight(Light light)
     {
         super.loadVector(locaiton_lightPosition, light.getPosition());
         super.loadVector(location_lightColor, light.getColor());
+        
     }
 
 }
