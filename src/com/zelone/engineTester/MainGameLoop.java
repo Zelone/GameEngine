@@ -8,15 +8,13 @@ package com.zelone.engineTester;
 import com.zelone.engine.DisplayManager;
 import com.zelone.engine.Loader;
 import com.zelone.models.RawModel;
-import com.zelone.render.Renderer;
 import com.zelone.entities.Camera;
 import com.zelone.entities.Entity;
-import com.zelone.entities.EntityMovement;
 import com.zelone.entities.Light;
 import com.zelone.models.TexturedModel;
 import com.zelone.render.MasterRenderer;
 import com.zelone.render.OBJLoader;
-import com.zelone.shader.StaticShader;
+import com.zelone.terrain.Terrain;
 import com.zelone.texture.ModelTexture;
 import java.util.List;
 import java.util.ArrayList;
@@ -36,22 +34,35 @@ public class MainGameLoop
         DisplayManager.createDisplay();
         Loader loader = new Loader();
         // StaticShader shader = new StaticShader();
-        // Renderer renderer = new Renderer(shader);
+        // EntityRenderer renderer = new EntityRenderer(shader);
+
+        List<Terrain> terrains = new ArrayList<Terrain>();
+        ModelTexture modelTerrainTexture = new ModelTexture(loader.loadTexture("grass"));
+
+        Terrain terrain = new Terrain(0, 0, loader, modelTerrainTexture);
+        modelTerrainTexture.setReflectivity(1);
+        modelTerrainTexture.setShineDamper(10);
+        terrains.add(terrain);
+
+        Terrain terrain1 = new Terrain(1, 0, loader, modelTerrainTexture);
+
+        terrains.add(terrain1);
+        List<Entity> entities = new ArrayList<Entity>();
 
         RawModel model = OBJLoader.loadObjModel("dragon", loader);
-
         ModelTexture texture = new ModelTexture(loader.loadTexture("stallTexture"));
         texture.setReflectivity(1);
         texture.setShineDamper(10);
-
         TexturedModel texturedModel = new TexturedModel(model, texture);
-        List<EntityMovement> entities=new ArrayList<EntityMovement>();
 
         Entity entity = new Entity(texturedModel, new Vector3f(0, 0, -25), 0, 0, 0, 1);
+        entity.move(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0));
+
+        entities.add(entity);
+
         Light light = new Light(new Vector3f(0, 0, -1), new Vector3f(1, 1, 1));
         Camera camera = new Camera();
-        
-        entities.add(new EntityMovement(entity,new Vector3f(0, 0, 0),new Vector3f(0, 0, 0)) );
+
         MasterRenderer masterRenderer = new MasterRenderer();
 
         while (!Display.isCloseRequested()) {
@@ -66,12 +77,15 @@ public class MainGameLoop
             // shader.loadViewMatrix(camera);
             // renderer.render(entity, shader);
             // shader.stop();
-            for (EntityMovement entity1 : entities) {
+            for (Entity entity1 : entities) {
                 entity1.run();
-                masterRenderer.processEntity(entity1.getEntity());
+                masterRenderer.processEntity(entity1);
             }
-
+            for (Terrain terrain2 : terrains) {
+                masterRenderer.processTerrain(terrain2);
+            }
             masterRenderer.render(light, camera);
+
             DisplayManager.updateDisplay();
         }
         //shader.cleanUp();

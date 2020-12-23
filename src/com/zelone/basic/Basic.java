@@ -17,7 +17,7 @@ public abstract void cleanUp();
     protected void finalize() throws Throwable
     {
         super.finalize(); //To change body of generated methods, choose Tools | Templates.
-        if (!clean) cleanUp();
+        while (!clean) cleanUp();
     }
     
 }

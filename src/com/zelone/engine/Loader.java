@@ -5,6 +5,7 @@
  */
 package com.zelone.engine;
 
+import com.zelone.basic.Basic;
 import com.zelone.models.RawModel;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,7 +25,7 @@ import org.newdawn.slick.opengl.TextureLoader;
  *
  * @author Jhawar
  */
-public class Loader
+public class Loader extends Basic
 {
 
     private List<Integer> vaos = new ArrayList<Integer>();
@@ -113,8 +114,10 @@ public class Loader
         return buffer;
     }
 
+    @Override
     public void cleanUp()
     {
+        clean=true;
         for (Integer vao : vaos) {
             GL30.glDeleteVertexArrays(vao);
         }

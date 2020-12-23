@@ -5,6 +5,7 @@
  */
 package com.zelone.entities;
 
+import com.zelone.engine.DisplayManager;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -47,6 +48,39 @@ public class Camera
         if (Keyboard.isKeyDown(Keyboard.KEY_CAPITAL)) {
             position.y -= changesOnKeyPressed;
         }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_V)) {
+            yaw += changesOnKeyPressed;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
+            yaw -= changesOnKeyPressed;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
+            roll += changesOnKeyPressed;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_G)) {
+            roll -= changesOnKeyPressed;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_Y)) {
+            pitch += changesOnKeyPressed;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_T)) {
+            pitch -= changesOnKeyPressed;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+            System.exit(0);
+        }
+         if (Keyboard.isKeyDown(Keyboard.KEY_X)) {
+            changesOnKeyPressed += 0.01;
+        }
+         
+         if (Keyboard.isKeyDown(Keyboard.KEY_Z)) {
+            changesOnKeyPressed -= 0.01;
+        }
+
     }
 
     public float getPitch()

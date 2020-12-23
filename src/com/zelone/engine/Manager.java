@@ -5,11 +5,20 @@
  */
 package com.zelone.engine;
 
+import com.zelone.basic.Basic;
+
 /**
  *
  * @author Jhawar
  */
-public class Manager
+public class Manager extends Basic
 {
+
+    @Override
+    public void cleanUp()
+    {
+        clean=true;
+        DisplayManager.closeDisplay();
+    }
     
 }

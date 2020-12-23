@@ -12,12 +12,16 @@ import org.lwjgl.util.vector.Vector3f;
  *
  * @author Jhawar
  */
-public class Entity
+public class Entity 
 {
+
     private TexturedModel model;
     private Vector3f position;
-    private float rotX,rotY,rotZ;
+    private float rotX, rotY, rotZ;
     private float scale;
+    
+    private Vector3f rotate;
+    private Vector3f translate;
 
     public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale)
     {
@@ -28,17 +32,21 @@ public class Entity
         this.rotZ = rotZ;
         this.scale = scale;
     }
-public void incresePostion(float dx,float dy, float dz){
-this.position.x +=dx;
-this.position.y +=dy;
-this.position.z +=dz;
-}
 
-public void increseRotation(float dx,float dy, float dz){
-this.rotX +=dx;
-this.rotY +=dy;
-this.rotZ +=dz;
-}
+    public void incresePostion(float dx, float dy, float dz)
+    {
+        this.position.x += dx;
+        this.position.y += dy;
+        this.position.z += dz;
+    }
+
+    public void increseRotation(float dx, float dy, float dz)
+    {
+        this.rotX += dx;
+        this.rotY += dy;
+        this.rotZ += dz;
+    }
+
     public TexturedModel getModel()
     {
         return model;
@@ -98,6 +106,18 @@ this.rotZ +=dz;
     {
         this.scale = scale;
     }
-    
-    
+
+    public void move(Vector3f rotate,Vector3f translate)
+    {
+        this.rotate = rotate;
+        this.translate = translate;
+    }
+
+    public void run()
+    {
+        this.incresePostion(translate.getX(), translate.getY(), translate.getZ());
+        this.increseRotation(rotate.getX(), rotate.getY(), rotate.getZ());
+
+    }
+
 }
