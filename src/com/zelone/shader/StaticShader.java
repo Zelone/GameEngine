@@ -14,7 +14,8 @@ import org.lwjgl.util.vector.Matrix4f;
  *
  * @author Jhawar
  */
-public class StaticShader extends ShaderProgram
+public class StaticShader extends ShaderProgram 
+
 {
 
     private static final String VERTIX_FILE = "src/com/zelone/shader/vertexShader.glsl";

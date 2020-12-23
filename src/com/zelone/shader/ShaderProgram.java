@@ -5,6 +5,7 @@
  */
 package com.zelone.shader;
 
+import com.zelone.basic.Basic;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.FloatBuffer;
@@ -18,7 +19,8 @@ import org.lwjgl.util.vector.Vector3f;
  *
  * @author Jhawar
  */
-public abstract class ShaderProgram
+public abstract class ShaderProgram extends Basic
+        
 {
 
     private int programID;
@@ -83,8 +85,10 @@ public abstract class ShaderProgram
         GL20.glUseProgram(0);
     }
 
+    @Override
     public void cleanUp()
     {
+        clean =true;
         stop();
         GL20.glDetachShader(programID, vertexShaderID);
         GL20.glDetachShader(programID, fragmentShaderID);
