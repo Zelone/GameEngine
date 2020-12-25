@@ -5,6 +5,8 @@
  */
 package com.zelone.engineTester;
 
+import com.zelone.OBJConverter.ModelData;
+import com.zelone.OBJConverter.OBJFileLoader;
 import com.zelone.engine.DisplayManager;
 import com.zelone.engine.Loader;
 import com.zelone.models.RawModel;
@@ -48,17 +50,20 @@ public class MainGameLoop
 
         terrains.add(terrain1);
         List<Entity> entities = new ArrayList<Entity>();
+        ModelData data = OBJFileLoader.loadOBJ("stall");
 
-        RawModel model = OBJLoader.loadObjModel("dragon", loader);
+        RawModel model = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());//OBJLoader.loadObjModel("stall", loader);
         ModelTexture texture = new ModelTexture(loader.loadTexture("stallTexture"));
         texture.setReflectivity(1);
         texture.setShineDamper(10);
         TexturedModel texturedModel = new TexturedModel(model, texture);
 
         Entity entity = new Entity(texturedModel, new Vector3f(0, 0, -25), 0, 0, 0, 1);
-        entity.move(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0));
+        entity.move(new Vector3f(0, 1, 0), new Vector3f(0, 0, 0));
 
         entities.add(entity);
+
+        entities.add(new Entity(new TexturedModel(OBJLoader.loadObjModel("grassModel", loader), new ModelTexture(loader.loadTexture("grassTexture")).setHasTransperancy(true).setUseFakeLighting(true)), new Vector3f(1, 0, 3), 0, 0, 0, 1).move(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0)));
 
         Light light = new Light(new Vector3f(0, 0, -1), new Vector3f(1, 1, 1));
         Camera camera = new Camera();

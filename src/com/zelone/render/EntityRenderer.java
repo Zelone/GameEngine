@@ -64,6 +64,10 @@ public class EntityRenderer
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         GL20.glEnableVertexAttribArray(2);
+        if (modelTexture.hasTransperancy()) {
+            MasterRenderer.disableCulling();
+        }
+shader.useFakeLighting(modelTexture.useFakeLighting());
         shader.loadShineVariables(modelTexture.getShineDamper(), modelTexture.getReflectivity());
 
         //activating and binding textures to triangles
@@ -84,6 +88,7 @@ public class EntityRenderer
 
     private void unBindTexturedModel()
     {
+        MasterRenderer.enableCulling();
         //disabling levels of VAO 
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);

@@ -31,6 +31,11 @@ public class MasterRenderer extends Basic
     private static final float FOV = 70;
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000;
+    public static final float SKY_RED = 0.5f;
+    public static final float SKY_GREEN = 0.5f;
+    public static final float SKY_BLUE = 0.5f;
+    public static final float FOG_DENSITY = 0.007f;
+    public static final float FOG_GRADIENT = 1.5f;
 
     private Matrix4f projectionMatrix;
     private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
@@ -44,11 +49,23 @@ public class MasterRenderer extends Basic
     public MasterRenderer()
     {
         super();
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glCullFace(GL11.GL_FRONT);
+        enableCulling();
         createProjectionMatrix();
         this.renderer = new EntityRenderer(shader, projectionMatrix);
         this.terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
+    }
+
+    public static void enableCulling()
+    {
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glCullFace(GL11.GL_BACK);
+    }
+
+    public static void disableCulling()
+    {
+        GL11.glDisable(GL11.GL_CULL_FACE);
+        GL11.glCullFace(GL11.GL_BACK);
+
     }
 
     public void render(Light sun, Camera camera)
@@ -56,13 +73,16 @@ public class MasterRenderer extends Basic
         prepare();
 
         terrainShader.start();
+
         terrainShader.loadLight(sun);
+        terrainShader.loadFog(FOG_DENSITY, FOG_GRADIENT, SKY_RED, SKY_GREEN, SKY_BLUE);
         terrainShader.loadViewMatrix(camera);
         terrainRenderer.render(terrains);
         terrainShader.stop();
         terrains.clear();
-        
+
         shader.start();
+        shader.loadFog(FOG_DENSITY, FOG_GRADIENT, SKY_RED, SKY_GREEN, SKY_BLUE);
         shader.loadLight(sun);
         shader.loadViewMatrix(camera);
         renderer.render(entities);
@@ -101,7 +121,7 @@ public class MasterRenderer extends Basic
     {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-        GL11.glClearColor(1, 0, 0, 1);
+        GL11.glClearColor(SKY_RED, SKY_GREEN, SKY_BLUE, 1);
     }
 
     private Matrix4f createProjectionMatrix()

@@ -9,12 +9,13 @@ import com.zelone.entities.Camera;
 import com.zelone.entities.Light;
 import com.zelone.toolBox.Maths;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  *
  * @author Jhawar
  */
-public class TerrainShader extends ShaderProgram 
+public class TerrainShader extends ShaderProgram
 
 {
 
@@ -27,6 +28,9 @@ public class TerrainShader extends ShaderProgram
     private int locaiton_lightPosition;
     private int location_reflectivity;
     private int location_shineDamper;
+    private int location_density;
+    private int location_gradient;
+    private int location_sky_color;
 
     public TerrainShader()
     {
@@ -52,7 +56,9 @@ public class TerrainShader extends ShaderProgram
         location_lightColor = super.getUniformLocation("lightColor");
         location_shineDamper = super.getUniformLocation("shineDamper");
         location_reflectivity = super.getUniformLocation("reflectivity");
-
+        location_density = super.getUniformLocation("density");
+        location_gradient = super.getUniformLocation("gradient");
+        location_sky_color = super.getUniformLocation("skyColor");
     }
 
     public void loadTransformationMatrix(Matrix4f matrix)
@@ -75,15 +81,21 @@ public class TerrainShader extends ShaderProgram
     {
         super.loadFloat(location_reflectivity, reflectivity);
         super.loadFloat(this.location_shineDamper, shineDamper);
-        
+
     }
 
+    public void loadFog(float fog_density, float fog_gradient, float r, float g, float b)
+    {
+        super.loadFloat(location_density, fog_density);
+        super.loadFloat(location_gradient, fog_gradient);
+        super.loadVector(location_sky_color, new Vector3f(r, g, b));
+    }
 
     public void loadLight(Light light)
     {
         super.loadVector(locaiton_lightPosition, light.getPosition());
         super.loadVector(location_lightColor, light.getColor());
-        
+
     }
 
 }

@@ -107,10 +107,11 @@ public class Entity
         this.scale = scale;
     }
 
-    public void move(Vector3f rotate,Vector3f translate)
+    public Entity move(Vector3f rotate,Vector3f translate)
     {
         this.rotate = rotate;
         this.translate = translate;
+        return this;
     }
 
     public void run()

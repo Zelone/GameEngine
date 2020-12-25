@@ -80,13 +80,13 @@ public class Terrain
                 int topRight = topLeft + 1;
                 int bottomLeft = ((gz + 1) * VERTEX_COUNT) + gx;
                 int bottomRight = bottomLeft + 1;
-               
-                indices[pointer++] = topRight;
-                indices[pointer++] = bottomLeft;
+
                 indices[pointer++] = topLeft;
-                indices[pointer++] = bottomRight;
                 indices[pointer++] = bottomLeft;
                 indices[pointer++] = topRight;
+                indices[pointer++] = topRight;
+                indices[pointer++] = bottomLeft;
+                indices[pointer++] = bottomRight;
             }
         }
         return loader.loadToVAO(vertices, textureCoords, normals, indices);
