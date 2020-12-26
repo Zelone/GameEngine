@@ -20,7 +20,7 @@ import org.lwjgl.util.vector.Vector3f;
  * @author Jhawar
  */
 public abstract class ShaderProgram extends Basic
-        
+
 {
 
     private int programID;
@@ -47,6 +47,11 @@ public abstract class ShaderProgram extends Basic
     protected int getUniformLocation(String uniformName)
     {
         return GL20.glGetUniformLocation(programID, uniformName);
+    }
+
+    protected void loadInt(int location, int value)
+    {
+        GL20.glUniform1i(location, value);
     }
 
     protected void loadFloat(int location, float value)
@@ -88,7 +93,7 @@ public abstract class ShaderProgram extends Basic
     @Override
     public void cleanUp()
     {
-        clean =true;
+        clean = true;
         stop();
         GL20.glDetachShader(programID, vertexShaderID);
         GL20.glDetachShader(programID, fragmentShaderID);

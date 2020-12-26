@@ -5,10 +5,12 @@
  */
 package com.zelone.terrain;
 
+import com.sun.prism.TextureMap;
 import com.zelone.engine.Loader;
 import com.zelone.models.RawModel;
 import com.zelone.texture.ModelTexture;
-import org.lwjgl.util.vector.Vector3f;
+import com.zelone.texture.TerrainTexture;
+import com.zelone.texture.TerrainTexturePack;
 
 /**
  *
@@ -19,22 +21,29 @@ public class Terrain
 
     private static final float SIZE = 800;
     private static final int VERTEX_COUNT = 128;
-    private final ModelTexture texture;
+    private TerrainTexturePack texture;
+    private TerrainTexture blendMap;
     private final float x;
     private final float z;
     private final RawModel model;
 
-    public Terrain(int gridX, int gridZ, Loader loader, ModelTexture texture)
+    public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texture,TerrainTexture blendMap)
     {
+        this.blendMap=blendMap;
         this.texture = texture;
         this.x = gridX * SIZE;
         this.z = gridZ * SIZE;
         this.model = generateTerrain(loader);
     }
 
-    public ModelTexture getTexture()
+    public TerrainTexturePack getTexture()
     {
         return texture;
+    }
+
+    public TerrainTexture getBlendMap()
+    {
+        return blendMap;
     }
 
     public float getX()

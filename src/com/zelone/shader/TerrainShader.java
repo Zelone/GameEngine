@@ -31,6 +31,11 @@ public class TerrainShader extends ShaderProgram
     private int location_density;
     private int location_gradient;
     private int location_sky_color;
+    private int location_bTextureSampler;
+    private int location_gTextureSampler;
+    private int location_rTextureSampler;
+    private int location_backgroundSampler;
+    private int location_blendSampler;
 
     public TerrainShader()
     {
@@ -59,6 +64,11 @@ public class TerrainShader extends ShaderProgram
         location_density = super.getUniformLocation("density");
         location_gradient = super.getUniformLocation("gradient");
         location_sky_color = super.getUniformLocation("skyColor");
+        location_blendSampler = super.getUniformLocation("blendSampler");
+        location_backgroundSampler = super.getUniformLocation("backgroundSampler");
+        location_rTextureSampler = super.getUniformLocation("rTextureSampler");
+        location_gTextureSampler = super.getUniformLocation("gTextureSampler");
+        location_bTextureSampler = super.getUniformLocation("bTextureSampler");
     }
 
     public void loadTransformationMatrix(Matrix4f matrix)
@@ -82,6 +92,15 @@ public class TerrainShader extends ShaderProgram
         super.loadFloat(location_reflectivity, reflectivity);
         super.loadFloat(this.location_shineDamper, shineDamper);
 
+    }
+
+    public void connectTextureSampler()
+    {
+        super.loadInt(location_backgroundSampler, 0);
+        super.loadInt(location_rTextureSampler, 1);
+        super.loadInt(location_gTextureSampler, 2);
+        super.loadInt(location_bTextureSampler, 3);
+        super.loadInt(location_blendSampler, 4);
     }
 
     public void loadFog(float fog_density, float fog_gradient, float r, float g, float b)

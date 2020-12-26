@@ -9,6 +9,7 @@ import com.zelone.models.RawModel;
 import com.zelone.shader.TerrainShader;
 import com.zelone.terrain.Terrain;
 import com.zelone.texture.ModelTexture;
+import com.zelone.texture.TerrainTexturePack;
 import com.zelone.toolBox.Maths;
 import java.util.List;
 import org.lwjgl.opengl.GL11;
@@ -30,7 +31,7 @@ public class TerrainRenderer
     public TerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix)
     {
         this.shader = shader;
-        
+        shader.connectTextureSampler();
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);
         shader.stop();
@@ -51,7 +52,6 @@ public class TerrainRenderer
     private void prepareTerrain(Terrain terrain)
     {
         RawModel model = terrain.getModel();
-        ModelTexture modelTexture = terrain.getTexture();
 
         //binding VAO of the current model
         GL30.glBindVertexArray(model.getVaoID());
@@ -60,12 +60,32 @@ public class TerrainRenderer
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         GL20.glEnableVertexAttribArray(2);
-        shader.loadShineVariables(modelTexture.getShineDamper(), modelTexture.getReflectivity());
-
+        bindtexture(terrain);
+        shader.loadShineVariables(1, 0);
         //activating and binding textures to triangles
-        GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, modelTexture.getID());
 
+    }
+
+    private TerrainTexturePack bindtexture(Terrain terrain)
+    {
+        TerrainTexturePack TexturePack = terrain.getTexture();
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, TexturePack.getBackgroundSampler().getTextureID());
+        
+        GL13.glActiveTexture(GL13.GL_TEXTURE1);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, TexturePack.getrSampler().getTextureID());
+        
+        GL13.glActiveTexture(GL13.GL_TEXTURE2);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, TexturePack.getgSampler().getTextureID());
+        
+        GL13.glActiveTexture(GL13.GL_TEXTURE3);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, TexturePack.getbSampler().getTextureID());
+        
+        GL13.glActiveTexture(GL13.GL_TEXTURE4);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, terrain.getBlendMap().getTextureID());
+        
+
+        return TexturePack;
     }
 
     private void loadModelMatrix(Terrain terrain)

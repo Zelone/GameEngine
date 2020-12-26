@@ -18,6 +18,8 @@ import com.zelone.render.MasterRenderer;
 import com.zelone.render.OBJLoader;
 import com.zelone.terrain.Terrain;
 import com.zelone.texture.ModelTexture;
+import com.zelone.texture.TerrainTexture;
+import com.zelone.texture.TerrainTexturePack;
 import java.util.List;
 import java.util.ArrayList;
 import org.lwjgl.opengl.Display;
@@ -39,14 +41,18 @@ public class MainGameLoop
         // EntityRenderer renderer = new EntityRenderer(shader);
 
         List<Terrain> terrains = new ArrayList<Terrain>();
-        ModelTexture modelTerrainTexture = new ModelTexture(loader.loadTexture("grass"));
+        //ModelTexture modelTerrainTexture = new ModelTexture(loader.loadTexture("grassy"));
 
-        Terrain terrain = new Terrain(0, 0, loader, modelTerrainTexture);
-        modelTerrainTexture.setReflectivity(1);
-        modelTerrainTexture.setShineDamper(10);
-        terrains.add(terrain);
-
-        Terrain terrain1 = new Terrain(1, 0, loader, modelTerrainTexture);
+        // Terrain terrain = new Terrain(0, 0, loader, modelTerrainTexture);
+        //modelTerrainTexture.setReflectivity(1);
+        //modelTerrainTexture.setShineDamper(10);
+        //terrains.add(terrain);
+        Terrain terrain1 = new Terrain(0, 0, loader, new TerrainTexturePack(
+                new TerrainTexture(loader.loadTexture("dirt")),
+                new TerrainTexture(loader.loadTexture("pinkFlowers")),
+                new TerrainTexture(loader.loadTexture("path")),
+                new TerrainTexture(loader.loadTexture("grassy"))),
+                new TerrainTexture(loader.loadTexture("blendMap")));
 
         terrains.add(terrain1);
         List<Entity> entities = new ArrayList<Entity>();
