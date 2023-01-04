@@ -7,6 +7,10 @@ package com.zelone.engineTester;
 
 import com.zelone.OBJConverter.ModelData;
 import com.zelone.OBJConverter.OBJFileLoader;
+import com.zelone.config.CameraData;
+import com.zelone.config.ConfigLoader;
+import com.zelone.config.EntityData;
+import com.zelone.config.TerrainsData;
 import com.zelone.engine.DisplayManager;
 import com.zelone.engine.Loader;
 import com.zelone.models.RawModel;
@@ -29,17 +33,15 @@ import org.lwjgl.util.vector.Vector3f;
  *
  * @author Jhawar
  */
-public class MainGameLoop
-{
+public class MainGameLoop {
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
 
         DisplayManager.createDisplay();
         Loader loader = new Loader();
+
         // StaticShader shader = new StaticShader();
         // EntityRenderer renderer = new EntityRenderer(shader);
-
         List<Terrain> terrains = new ArrayList<Terrain>();
         //ModelTexture modelTerrainTexture = new ModelTexture(loader.loadTexture("grassy"));
 
@@ -47,32 +49,49 @@ public class MainGameLoop
         //modelTerrainTexture.setReflectivity(1);
         //modelTerrainTexture.setShineDamper(10);
         //terrains.add(terrain);
-        Terrain terrain1 = new Terrain(0, 0, loader, new TerrainTexturePack(
-                new TerrainTexture(loader.loadTexture("dirt")),
-                new TerrainTexture(loader.loadTexture("pinkFlowers")),
-                new TerrainTexture(loader.loadTexture("path")),
-                new TerrainTexture(loader.loadTexture("grassy"))),
-                new TerrainTexture(loader.loadTexture("blendMap")));
+        ConfigLoader config = new ConfigLoader();
+        TerrainsData[] terrainDatas = config.getTerrains();
+        for (TerrainsData terrainData : terrainDatas) {
 
-        terrains.add(terrain1);
+            Terrain terrain1 = new Terrain(terrainData.gridX, terrainData.gridZ, loader, new TerrainTexturePack(
+                    new TerrainTexture(loader.loadTexture(terrainData.rSampler)),
+                    new TerrainTexture(loader.loadTexture(terrainData.gSampler)),
+                    new TerrainTexture(loader.loadTexture(terrainData.bSampler)),
+                    new TerrainTexture(loader.loadTexture(terrainData.backgroundSampler))),
+                    new TerrainTexture(loader.loadTexture(terrainData.blendMap)));
+
+            terrains.add(terrain1);
+        }
         List<Entity> entities = new ArrayList<Entity>();
-        ModelData data = OBJFileLoader.loadOBJ("stall");
+        EntityData[] entityDatas = config.getEntities();
 
-        RawModel model = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());//OBJLoader.loadObjModel("stall", loader);
-        ModelTexture texture = new ModelTexture(loader.loadTexture("stallTexture"));
-        texture.setReflectivity(1);
-        texture.setShineDamper(10);
-        TexturedModel texturedModel = new TexturedModel(model, texture);
+        for (EntityData entityData : entityDatas) {
+            if (entityData.TypeSetting) {
 
-        Entity entity = new Entity(texturedModel, new Vector3f(0, 0, -25), 0, 0, 0, 1);
-        entity.move(new Vector3f(0, 1, 0), new Vector3f(0, 0, 0));
+                ModelData data = OBJFileLoader.loadOBJ(entityData.model);
 
-        entities.add(entity);
+                RawModel model = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());//OBJLoader.loadObjModel("stall", loader);
+                ModelTexture texture = new ModelTexture(loader.loadTexture(entityData.modelTexture));
+                texture.setData(entityData);
+                TexturedModel texturedModel = new TexturedModel(model, texture);
 
-        entities.add(new Entity(new TexturedModel(OBJLoader.loadObjModel("grassModel", loader), new ModelTexture(loader.loadTexture("grassTexture")).setHasTransperancy(true).setUseFakeLighting(true)), new Vector3f(1, 0, 3), 0, 0, 0, 1).move(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0)));
+                Entity entity = new Entity(texturedModel, entityData.position, entityData.rotX, entityData.rotY, entityData.rotZ, entityData.scale);
+                entity.move(entityData.rotate, entityData.translate);
+
+                entities.add(entity);
+            } else {
+                entities.add(new Entity(new TexturedModel(OBJLoader.loadObjModel(entityData.model, loader), new ModelTexture(loader.loadTexture(entityData.modelTexture)).setData(entityData)), entityData.position, entityData.rotX, entityData.rotY, entityData.rotZ, entityData.scale).move(entityData.rotate, entityData.translate));
+            }
+        }
 
         Light light = new Light(new Vector3f(0, 0, -1), new Vector3f(1, 1, 1));
         Camera camera = new Camera();
+        CameraData camdata = config.getCameraData();
+        camera.setPitch(camdata.pitch);
+        camera.setPosition(camdata.position);
+        camera.setRoll(camdata.roll);
+        camera.setYaw(camdata.yaw);
+        camera.setChangesOnKeyPressed(camdata.changesOnKeyPressed);
 
         MasterRenderer masterRenderer = new MasterRenderer();
 
@@ -81,8 +100,8 @@ public class MainGameLoop
             //entity.increseRotation(0, 1, 0);
             camera.move();
             // renderer.prepare();
-            //gamelogic
-            //render
+            // gamelogic
+            // render
             // shader.start();
             // shader.loadLight(light);
             // shader.loadViewMatrix(camera);

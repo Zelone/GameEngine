@@ -8,7 +8,6 @@ package com.zelone.render;
 import com.zelone.models.RawModel;
 import com.zelone.shader.TerrainShader;
 import com.zelone.terrain.Terrain;
-import com.zelone.texture.ModelTexture;
 import com.zelone.texture.TerrainTexturePack;
 import com.zelone.toolBox.Maths;
 import java.util.List;

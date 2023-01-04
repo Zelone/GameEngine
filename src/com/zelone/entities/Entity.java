@@ -12,19 +12,18 @@ import org.lwjgl.util.vector.Vector3f;
  *
  * @author Jhawar
  */
-public class Entity 
-{
+public class Entity {
 
     private TexturedModel model;
     private Vector3f position;
     private float rotX, rotY, rotZ;
     private float scale;
-    
+
     private Vector3f rotate;
     private Vector3f translate;
+    private float changeScale;
 
-    public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale)
-    {
+    public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         this.model = model;
         this.position = position;
         this.rotX = rotX;
@@ -33,92 +32,85 @@ public class Entity
         this.scale = scale;
     }
 
-    public void incresePostion(float dx, float dy, float dz)
-    {
+    public void incresePostion(float dx, float dy, float dz) {
         this.position.x += dx;
         this.position.y += dy;
         this.position.z += dz;
     }
 
-    public void increseRotation(float dx, float dy, float dz)
-    {
+    public void increseRotation(float dx, float dy, float dz) {
         this.rotX += dx;
         this.rotY += dy;
         this.rotZ += dz;
     }
 
-    public TexturedModel getModel()
-    {
+    private void increseScale(float dScale) {
+        this.scale += dScale;
+    }
+
+    public TexturedModel getModel() {
         return model;
     }
 
-    public Vector3f getPosition()
-    {
+    public Vector3f getPosition() {
         return position;
     }
 
-    public float getRotX()
-    {
+    public float getRotX() {
         return rotX;
     }
 
-    public float getRotY()
-    {
+    public float getRotY() {
         return rotY;
     }
 
-    public float getRotZ()
-    {
+    public float getRotZ() {
         return rotZ;
     }
 
-    public float getScale()
-    {
+    public float getScale() {
         return scale;
     }
 
-    public void setModel(TexturedModel model)
-    {
+    public void setModel(TexturedModel model) {
         this.model = model;
     }
 
-    public void setPosition(Vector3f position)
-    {
+    public void setPosition(Vector3f position) {
         this.position = position;
     }
 
-    public void setRotX(float rotX)
-    {
+    public void setRotX(float rotX) {
         this.rotX = rotX;
     }
 
-    public void setRotY(float rotY)
-    {
+    public void setRotY(float rotY) {
         this.rotY = rotY;
     }
 
-    public void setRotZ(float rotZ)
-    {
+    public void setRotZ(float rotZ) {
         this.rotZ = rotZ;
     }
 
-    public void setScale(float scale)
-    {
+    public void setScale(float scale) {
         this.scale = scale;
     }
 
-    public Entity move(Vector3f rotate,Vector3f translate)
-    {
+    public Entity move(Vector3f rotate, Vector3f translate) {
+        return move(rotate, translate, 0);
+    }
+
+    public Entity move(Vector3f rotate, Vector3f translate, float changeScale) {
         this.rotate = rotate;
         this.translate = translate;
+        this.changeScale = changeScale;
         return this;
     }
 
-    public void run()
-    {
+    public void run() {
         this.incresePostion(translate.getX(), translate.getY(), translate.getZ());
         this.increseRotation(rotate.getX(), rotate.getY(), rotate.getZ());
-
+        this.increseScale(changeScale);
     }
 
 }

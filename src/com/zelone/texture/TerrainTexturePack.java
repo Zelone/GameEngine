@@ -9,36 +9,31 @@ package com.zelone.texture;
  *
  * @author Jhawar
  */
-public class TerrainTexturePack
-{
-    TerrainTexture rSampler,gSampler,bSampler,backgroundSampler;
+public class TerrainTexturePack {
 
-    public TerrainTexturePack( TerrainTexture rSampler, TerrainTexture gSampler, TerrainTexture bSampler, TerrainTexture backgroundSampler)
-    {
+    TerrainTexture rSampler, gSampler, bSampler, backgroundSampler;
+
+    public TerrainTexturePack(TerrainTexture rSampler, TerrainTexture gSampler, TerrainTexture bSampler, TerrainTexture backgroundSampler) {
         this.rSampler = rSampler;
         this.gSampler = gSampler;
         this.bSampler = bSampler;
         this.backgroundSampler = backgroundSampler;
     }
 
-    public TerrainTexture getBackgroundSampler()
-    {
+    public TerrainTexture getBackgroundSampler() {
         return backgroundSampler;
     }
 
-    public TerrainTexture getbSampler()
-    {
+    public TerrainTexture getbSampler() {
         return bSampler;
     }
 
-    public TerrainTexture getgSampler()
-    {
+    public TerrainTexture getgSampler() {
         return gSampler;
     }
 
-    public TerrainTexture getrSampler()
-    {
+    public TerrainTexture getrSampler() {
         return rSampler;
     }
-    
+
 }

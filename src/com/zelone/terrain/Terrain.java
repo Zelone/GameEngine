@@ -5,10 +5,8 @@
  */
 package com.zelone.terrain;
 
-import com.sun.prism.TextureMap;
 import com.zelone.engine.Loader;
 import com.zelone.models.RawModel;
-import com.zelone.texture.ModelTexture;
 import com.zelone.texture.TerrainTexture;
 import com.zelone.texture.TerrainTexturePack;
 

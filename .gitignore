@@ -1,2 +1,4 @@
 /dist/
 /res/*.zip 
+/nbproject/private/
+/build/

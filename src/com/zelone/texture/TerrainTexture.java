@@ -9,21 +9,17 @@ package com.zelone.texture;
  *
  * @author Jhawar
  */
-public class TerrainTexture
-{
+public class TerrainTexture {
 
     private int TextureID;
 
-    public TerrainTexture(int TextureID)
-    {
+    public TerrainTexture(int TextureID) {
         super();
         this.TextureID = TextureID;
     }
 
-    public int getTextureID()
-    {
+    public int getTextureID() {
         return TextureID;
     }
-    
 
 }

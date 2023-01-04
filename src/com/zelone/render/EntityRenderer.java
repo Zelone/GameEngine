@@ -13,7 +13,6 @@ import com.zelone.texture.ModelTexture;
 import com.zelone.toolBox.Maths;
 import java.util.List;
 import java.util.Map;
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -24,21 +23,18 @@ import org.lwjgl.util.vector.Matrix4f;
  *
  * @author Jhawar
  */
-public class EntityRenderer
-{
+public class EntityRenderer {
 
     private StaticShader shader;
 
-    public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix)
-    {
+    public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);
         shader.stop();
     }
 
-    public void render(Map<TexturedModel, List<Entity>> entities)
-    {
+    public void render(Map<TexturedModel, List<Entity>> entities) {
         for (TexturedModel model : entities.keySet()) {
             prepareTexturedModel(model);
             List<Entity> batch = entities.get(model);
@@ -52,8 +48,7 @@ public class EntityRenderer
         }
     }
 
-    private void prepareTexturedModel(TexturedModel texturedModel)
-    {
+    private void prepareTexturedModel(TexturedModel texturedModel) {
         RawModel model = texturedModel.getRawModel();
         ModelTexture modelTexture = texturedModel.getTexture();
 
@@ -67,7 +62,7 @@ public class EntityRenderer
         if (modelTexture.hasTransperancy()) {
             MasterRenderer.disableCulling();
         }
-shader.useFakeLighting(modelTexture.useFakeLighting());
+        shader.useFakeLighting(modelTexture.useFakeLighting());
         shader.loadShineVariables(modelTexture.getShineDamper(), modelTexture.getReflectivity());
 
         //activating and binding textures to triangles
@@ -76,8 +71,7 @@ shader.useFakeLighting(modelTexture.useFakeLighting());
 
     }
 
-    private void prepareInstance(Entity entity)
-    {
+    private void prepareInstance(Entity entity) {
         //getting Transformation matrix of the current entity
         Matrix4f transformationMatrix = getTransformationMatrix(entity);
         //loading transformations, shine to shader
@@ -86,8 +80,7 @@ shader.useFakeLighting(modelTexture.useFakeLighting());
 
     }
 
-    private void unBindTexturedModel()
-    {
+    private void unBindTexturedModel() {
         MasterRenderer.enableCulling();
         //disabling levels of VAO 
         GL20.glDisableVertexAttribArray(0);
@@ -99,14 +92,12 @@ shader.useFakeLighting(modelTexture.useFakeLighting());
 
     }
 
-    private Matrix4f getTransformationMatrix(Entity entity)
-    {
+    private Matrix4f getTransformationMatrix(Entity entity) {
         return Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
     }
 
     @Deprecated
-    public void render(Entity entity, StaticShader shader)
-    {
+    public void render(Entity entity, StaticShader shader) {
         TexturedModel texturedModel = entity.getModel();
         RawModel model = texturedModel.getRawModel();
 
@@ -142,8 +133,7 @@ shader.useFakeLighting(modelTexture.useFakeLighting());
     }
 
     @Deprecated
-    public void render(TexturedModel texturedModel)
-    {
+    public void render(TexturedModel texturedModel) {
         RawModel model = texturedModel.getRawModel();
         GL30.glBindVertexArray(model.getVaoID());
         GL20.glEnableVertexAttribArray(0);

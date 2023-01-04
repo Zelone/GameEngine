@@ -9,15 +9,18 @@ package com.zelone.basic;
  *
  * @author Jhawar
  */
-public abstract class Basic
-{
-    public boolean clean=false;
-public abstract void cleanUp();
+public abstract class Basic {
+
+    public boolean clean = false;
+
+    public abstract void cleanUp();
+
     @Override
-    protected void finalize() throws Throwable
-    {
+    protected void finalize() throws Throwable {
         super.finalize(); //To change body of generated methods, choose Tools | Templates.
-        while (!clean) cleanUp();
+        while (!clean) {
+            cleanUp();
+        }
     }
-    
+
 }

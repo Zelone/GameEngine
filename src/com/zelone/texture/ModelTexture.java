@@ -5,71 +5,66 @@
  */
 package com.zelone.texture;
 
+import com.zelone.config.EntityData;
+
 /**
  *
  * @author Jhawar
  */
-public class ModelTexture
-{
+public class ModelTexture {
+
     private int textureID;
-    
-    private float shineDamper =1;
-    private  float reflectivity =0;
-    
-    private boolean hasTransperancy=false;
-        private boolean useFakeLighting=false;
+    private EntityData data;
 
-
-    public ModelTexture(int textureID)
-    {
+    public ModelTexture(int textureID) {
         this.textureID = textureID;
     }
 
-    public void setShineDamper(float shineDamper)
-    {
-        this.shineDamper = shineDamper;
+    public void setShineDamper(float shineDamper) {
+        data.shineDamper = shineDamper;
     }
 
-    public void setReflectivity(float reflectivity)
-    {
-        this.reflectivity = reflectivity;
+    public EntityData getEntityData() {
+        return data;
     }
 
-    public boolean hasTransperancy()
-    {
-        return hasTransperancy;
+    public void setReflectivity(float reflectivity) {
+        data.reflectivity = reflectivity;
     }
 
-    public boolean useFakeLighting()
-    {
-        return useFakeLighting;
+    public boolean hasTransperancy() {
+        return data.hasTransperancy;
     }
 
-    public ModelTexture setUseFakeLighting(boolean useFakeLighting)
-    {
-        this.useFakeLighting = useFakeLighting;
+    public boolean useFakeLighting() {
+        return data.useFakeLighting;
+    }
+
+    public ModelTexture setUseFakeLighting(boolean useFakeLighting) {
+        data.useFakeLighting = useFakeLighting;
         return this;
     }
 
-    public ModelTexture setHasTransperancy(boolean hasTransperancy)
-    {
-        this.hasTransperancy = hasTransperancy;
+    public ModelTexture setData(EntityData data) {
+        this.data = data;
         return this;
     }
 
-    public float getShineDamper()
-    {
-        return shineDamper;
+    public ModelTexture setHasTransperancy(boolean hasTransperancy) {
+        data.hasTransperancy = hasTransperancy;
+        return this;
     }
 
-    public float getReflectivity()
-    {
-        return reflectivity;
+    public float getShineDamper() {
+        return data.shineDamper;
     }
 
-    public int getID()
-    {
+    public float getReflectivity() {
+        return data.reflectivity;
+    }
+
+    public int getID() {
         return textureID;
     }
-    
+
 }

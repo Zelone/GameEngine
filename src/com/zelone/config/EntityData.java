@@ -1,0 +1,100 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.zelone.config;
+
+import org.lwjgl.util.vector.Vector3f;
+
+/**
+ *
+ * @author Zelone
+ */
+public class EntityData {
+
+    public final String model;
+    public final String modelTexture;
+    public float shineDamper = 1;
+    public float reflectivity = 0;
+    public boolean hasTransperancy = false;
+    public boolean useFakeLighting = false;
+    public Vector3f position = new Vector3f(0, 0, 0);
+    public float rotX = 0;
+    public float rotY = 0;
+    public float rotZ = 0;
+    public float scale = 1;
+    public Vector3f rotate = new Vector3f(0, 0, 0);
+    public Vector3f translate = new Vector3f(0, 0, 0);
+    public float changeScale = 0;
+    public boolean TypeSetting = true;
+
+    public EntityData(String model, String modelTexture) {
+        this.model = model;
+        this.modelTexture = modelTexture;
+    }
+
+    public void setTypeSetting(boolean TypeSetting) {
+        this.TypeSetting = TypeSetting;
+    }
+
+    public EntityData setUseFakeLighting(boolean useFakeLighting) {
+        this.useFakeLighting = useFakeLighting;
+        return this;
+    }
+
+    public EntityData setShineDamper(float shineDamper) {
+        this.shineDamper = shineDamper;
+        return this;
+    }
+
+    public EntityData setReflectivity(float reflectivity) {
+        this.reflectivity = reflectivity;
+        return this;
+    }
+
+    public EntityData setHasTransperancy(boolean hasTransperancy) {
+        this.hasTransperancy = hasTransperancy;
+        return this;
+    }
+
+    public EntityData setPosition(Vector3f position) {
+        this.position = position;
+        return this;
+    }
+
+    public EntityData setRotX(float rotX) {
+        this.rotX = rotX;
+        return this;
+    }
+
+    public EntityData setRotY(float rotY) {
+        this.rotY = rotY;
+        return this;
+    }
+
+    public EntityData setRotZ(float rotZ) {
+        this.rotZ = rotZ;
+        return this;
+    }
+
+    public EntityData setScale(float scale) {
+        this.scale = scale;
+        return this;
+    }
+
+    public EntityData setRotate(Vector3f rotate) {
+        this.rotate = rotate;
+        return this;
+    }
+
+    public EntityData setTranslate(Vector3f translate) {
+        this.translate = translate;
+        return this;
+    }
+
+    public EntityData setChangeScale(float changeScale) {
+        this.changeScale = changeScale;
+        return this;
+    }
+
+}
