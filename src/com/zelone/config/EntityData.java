@@ -4,6 +4,7 @@
  */
 package com.zelone.config;
 
+import java.lang.reflect.Field;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -31,6 +32,63 @@ public class EntityData {
     public EntityData(String model, String modelTexture) {
         this.model = model;
         this.modelTexture = modelTexture;
+    }
+
+    public EntityData(boolean internal, Object... ask) {
+        Field[] f = CameraData.class.getFields();
+        try {
+            for (int i = 0; i < f.length; i++) {
+                switch (f[i].getName()) {
+                    case "model":
+                        this.model = ((String) ask[i]);
+                        break;
+                    case "modelTexture":
+                        this.modelTexture = ((String) ask[i]);
+                        break;
+                    case "rotate":
+                        this.rotate = ((Vector3f) ask[i]);
+                        break;
+                    case "hasTransperancy":
+                        this.hasTransperancy = ((Boolean) ask[i]);
+                        break;
+                    case "scale":
+                        this.scale = ((Float) ask[i]);
+                        break;
+                    case "useFakeLighting":
+                        this.useFakeLighting = ((Boolean) ask[i]);
+                        break;
+                    case "changeScale":
+                        this.changeScale = ((Float) ask[i]);
+                        break;
+                    case "reflectivity":
+                        this.reflectivity = ((Float) ask[i]);
+                        break;
+                    case "translate":
+                        this.translate = ((Vector3f) ask[i]);
+                        break;
+                    case "rotX":
+                        this.rotX = ((Float) ask[i]);
+                        break;
+                    case "shineDamper":
+                        this.shineDamper = ((Float) ask[i]);
+                        break;
+                    case "rotZ":
+                        this.rotZ = ((Float) ask[i]);
+                        break;
+                    case "TypeSetting":
+                        this.TypeSetting = ((Boolean) ask[i]);
+                        break;
+                    case "rotY":
+                        this.rotY = ((Float) ask[i]);
+                        break;
+                    case "position":
+                        this.position = ((Vector3f) ask[i]);
+                        break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setTypeSetting(boolean TypeSetting) {

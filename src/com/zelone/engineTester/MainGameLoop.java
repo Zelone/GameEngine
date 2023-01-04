@@ -52,7 +52,7 @@ public class MainGameLoop {
         ConfigLoader config = new ConfigLoader();
         TerrainsData[] terrainDatas = config.getTerrains();
         for (TerrainsData terrainData : terrainDatas) {
-
+            //Let
             Terrain terrain1 = new Terrain(terrainData.gridX, terrainData.gridZ, loader, new TerrainTexturePack(
                     new TerrainTexture(loader.loadTexture(terrainData.rSampler)),
                     new TerrainTexture(loader.loadTexture(terrainData.gSampler)),

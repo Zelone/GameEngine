@@ -4,6 +4,8 @@
  */
 package com.zelone.config;
 
+import java.lang.reflect.Field;
+
 /**
  *
  * @author Zelone
@@ -26,6 +28,40 @@ public class TerrainsData {
         this.bSampler = bSampler;
         this.backgroundSampler = backgroundSampler;
         this.blendMap = blendMap;
+    }
+
+    public TerrainsData(boolean internal, Object... ask) {
+        Field[] f = CameraData.class.getFields();
+        try {
+            for (int i = 0; i < f.length; i++) {
+                switch (f[i].getName()) {
+                    case "rSampler":
+                        this.rSampler = ((String) ask[i]);
+                        break;
+                    case "gSampler":
+                        this.gSampler = ((String) ask[i]);
+                        break;
+                    case "bSampler":
+                        this.bSampler = ((String) ask[i]);
+                        break;
+                    case "backgroundSampler":
+                        this.backgroundSampler = ((String) ask[i]);
+                        break;
+                    case "blendMap":
+                        this.blendMap = ((String) ask[i]);
+                        break;
+                    case "gridX":
+                        this.gridX = ((Integer) ask[i]);
+                        break;
+                    case "gridZ":
+                        this.gridZ = ((Integer) ask[i]);
+                        break;
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

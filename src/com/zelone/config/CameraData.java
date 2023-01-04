@@ -27,9 +27,38 @@ public class CameraData {
         this.position = position;
     }
 
-    public void rrrun() {
+    public CameraData(boolean internal , Object... ask) {
         Field[] f = CameraData.class.getFields();
-        System.out.println(f.toString());
+        try {
+            for (int i = 0; i < f.length; i++) {
+                switch (f[i].getName()) {
+                    case "pitch":
+                        this.pitch = ((Float) ask[i]);
+                        break;
+                    case "changesOnKeyPressed":
+                        this.changesOnKeyPressed = ((Float) ask[i]);
+                        break;
+                    case "yaw":
+                        this.yaw = ((Float) ask[i]);
+                        break;
+                    case "roll":
+                        this.roll = ((Float) ask[i]);
+                        break;
+                    case "position":
+                        this.position = ((Vector3f) ask[i]);
+                        break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void rrrun() {
+        Field[] ff = CameraData.class.getFields();
+        for (Field f : ff) {
+            System.out.println(f.getGenericType().getTypeName() + ":" + f.getName());
+        }
     }
 
 }

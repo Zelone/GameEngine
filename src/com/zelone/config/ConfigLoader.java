@@ -6,7 +6,10 @@ package com.zelone.config;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.Iterator;
+import java.io.FileOutputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.lwjgl.util.vector.Vector3f;
@@ -21,21 +24,121 @@ public class ConfigLoader {
     EntityData[] entityDatas;
     CameraData cameraData;
 
+    private Object[] getObjectOfField(Field[] fields, JSONObject jsonObj) {
+        try {
+            Object[] fieldData = new Object[fields.length];
+            int i = 0;
+            for (Field field : fields) {
+                Object data = null;
+                Type type = field.getGenericType();
+                if (type.getTypeName().contains(".")) {
+                    if (type.getTypeName().contains("String")) {
+                        data = jsonObj.getString(field.getName());
+                    } else if (type.getTypeName().contains("vector")) {
+                        JSONObject jsonvalues = jsonObj.getJSONObject(field.getName());
+                        data = new Vector3f(Float.parseFloat(jsonvalues.getString("X")), Float.parseFloat(jsonvalues.getString("Y")), Float.parseFloat(jsonvalues.getString("Z")));
+                    }
+
+                } else {
+                    String s = jsonObj.getString(field.getName());
+                    switch (type.getTypeName()) {
+                        case "float":
+                            data = Float.parseFloat(s);
+                            break;
+                        case "boolean":
+                            data = Boolean.parseBoolean(s);
+                            break;
+                        case "int":
+                            data = Integer.parseInt(s);
+                            break;
+                    }
+
+                }
+                fieldData[i++] = data;
+            }
+            return fieldData;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public ConfigLoader() {
 
         try {
             JSONObject json = new JSONObject(new JSONTokener(new FileInputStream(new File("config/config.json"))));
-             new CameraData(0, 0, 0, 0, new Vector3f(0, 0, 0)).rrrun();
-            System.exit(0);
-            Iterator<String> keys = json.keys();
-            while (keys.hasNext()) {
-                String key = (String) keys.next();
-                System.out.println("" + key + ":" + json.getString(key) + "");
-                if (key.contains("camera") || key.contains("Camera")) {
-                    JSONObject cameraJSON = json.getJSONObject(key);
+
+            JSONObject jsonCameraObj = json.getJSONObject("camera");
+            Field[] fields = CameraData.class.getFields();
+            cameraData = new CameraData(true, getObjectOfField(fields, jsonCameraObj));
+
+            JSONArray jsonArrayObj = json.getJSONArray("terrains");
+            int JSONlength = jsonArrayObj.length();
+            terrainsDatas = new TerrainsData[JSONlength];
+            fields = TerrainsData.class.getFields();
+            for (int i = 0; i < JSONlength; i++) {
+                JSONObject jsonTerrainObj = jsonArrayObj.getJSONObject(i);
+                terrainsDatas[i] = new TerrainsData(true, getObjectOfField(fields, jsonTerrainObj));
+            }
+            jsonArrayObj = json.getJSONArray("entities");
+            JSONlength = jsonArrayObj.length();
+            entityDatas = new EntityData[JSONlength];
+            fields = EntityData.class.getFields();
+            for (int i = 0; i < JSONlength; i++) {
+                JSONObject jsonEntityObj = jsonArrayObj.getJSONObject(i);
+                entityDatas[i] = new EntityData(true, getObjectOfField(fields, jsonEntityObj));
+            }
+
+        } catch (Exception e) {
+            File f = new File("config/");
+            if ((f.exists() && f.isDirectory()) == false) {
+                try {
+                    f.createNewFile();
+                } catch (Exception ex) {
                 }
             }
-        } catch (Exception e) {
+            f = new File("config/config.json");
+            if (f.exists()) {
+                System.out.println("Some error in config file.");
+                f.delete();
+                System.exit(0);
+            } else {
+                System.out.println("Creating in config file at location /config/config.json with basic data");
+                try {
+                    f.createNewFile();
+                    JSONObject jsonobj = new JSONObject();
+                    JSONObject jsonInternalCameraObj = new JSONObject();
+                    jsonobj.put("camera", jsonInternalCameraObj);
+                    Field[] fildsInClass = CameraData.class.getFields();
+                    for (Field field : fildsInClass) {
+                        jsonInternalCameraObj.put(field.getName(), field.getGenericType().getTypeName());
+                    }
+
+                    JSONObject jsonInternalTerrainObj = new JSONObject();
+                    jsonobj.put("terrains", new JSONArray(new Object[]{jsonInternalTerrainObj}));
+
+                    //
+                    fildsInClass = TerrainsData.class.getFields();
+                    for (Field field : fildsInClass) {
+                        jsonInternalTerrainObj.put(field.getName(), field.getGenericType().getTypeName());
+                    }
+
+                    JSONObject jsonInternalEntityObj = new JSONObject();
+                    jsonobj.put("entities", new JSONArray(new Object[]{jsonInternalEntityObj}));
+
+                    fildsInClass = EntityData.class.getFields();
+                    for (Field field : fildsInClass) {
+                        jsonInternalEntityObj.put(field.getName(), field.getGenericType().getTypeName());
+                    }
+
+                    FileOutputStream fos = new FileOutputStream(f);
+                    fos.write(jsonobj.toString().getBytes());
+                    fos.close();
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
             e.printStackTrace();
         }
     }
