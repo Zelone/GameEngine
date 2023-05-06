@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zelone.entities;
+package zelone.entities;
 
-import com.zelone.models.TexturedModel;
+import zelone.models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -15,6 +15,7 @@ import org.lwjgl.util.vector.Vector3f;
 public class Entity {
 
     private TexturedModel model;
+    
     private Vector3f position;
     private float rotX, rotY, rotZ;
     private float scale;

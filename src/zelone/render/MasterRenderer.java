@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zelone.render;
+package zelone.render;
 
-import com.zelone.basic.Basic;
-import com.zelone.entities.Camera;
-import com.zelone.entities.Entity;
-import com.zelone.entities.Light;
-import com.zelone.models.TexturedModel;
-import com.zelone.shader.StaticShader;
-import com.zelone.shader.TerrainShader;
-import com.zelone.terrain.Terrain;
+import zelone.entities.Camera;
+import zelone.entities.Entity;
+import zelone.entities.Light;
+import zelone.models.TexturedModel;
+import zelone.shader.StaticShader;
+import zelone.shader.TerrainShader;
+import zelone.terrain.Terrain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -25,7 +24,7 @@ import org.lwjgl.util.vector.Matrix4f;
  *
  * @author Jhawar
  */
-public class MasterRenderer extends Basic
+public class MasterRenderer 
 {
 
     private static final float FOV = 70;
@@ -65,7 +64,6 @@ public class MasterRenderer extends Basic
     {
         GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
-
     }
 
     public void render(Light sun, Camera camera)
@@ -90,10 +88,10 @@ public class MasterRenderer extends Basic
         entities.clear();
     }
 
-    @Override
+   
     public void cleanUp()
     {
-        clean = true;
+        
         shader.cleanUp();
         terrainShader.cleanUp();
     }

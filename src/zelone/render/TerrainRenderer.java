@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zelone.render;
+package zelone.render;
 
-import com.zelone.models.RawModel;
-import com.zelone.shader.TerrainShader;
-import com.zelone.terrain.Terrain;
-import com.zelone.texture.TerrainTexturePack;
-import com.zelone.toolBox.Maths;
+import zelone.models.RawModel;
+import zelone.shader.TerrainShader;
+import zelone.terrain.Terrain;
+import zelone.texture.TerrainTexturePack;
+import zelone.toolBox.Maths;
 import java.util.List;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;

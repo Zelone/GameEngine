@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zelone.models;
+package zelone.models;
 
-import com.zelone.texture.ModelTexture;
+import zelone.texture.ModelTexture;
 
 /**
  *

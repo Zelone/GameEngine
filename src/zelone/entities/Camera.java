@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zelone.entities;
+package zelone.entities;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
  *
- * @author Jhawar
+ * @author Zelone
  */
 public class Camera {
 
@@ -30,7 +30,7 @@ public class Camera {
     }
 
     public void move() {
-
+             
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
             position.z -= changesOnKeyPressed;
         }

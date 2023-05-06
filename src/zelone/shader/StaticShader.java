@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zelone.shader;
+package zelone.shader;
 
-import com.zelone.entities.Camera;
-import com.zelone.entities.Light;
-import com.zelone.toolBox.Maths;
+import zelone.entities.Camera;
+import zelone.entities.Light;
+import zelone.toolBox.Maths;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -19,8 +19,8 @@ public class StaticShader extends ShaderProgram
 
 {
 
-    private static final String VERTIX_FILE = "src/com/zelone/shader/vertexShader.glsl";
-    private static final String FRAGMENT_FILE = "src/com/zelone/shader/fragmentShader.glsl";
+    private static final String VERTIX_FILE = "src/zelone/shader/vertexShader.glsl";
+    private static final String FRAGMENT_FILE = "src/zelone/shader/fragmentShader.glsl";
     private int location_transformationMatrix;
     private int loction_projectionMatrix;
     private int location_viewMatrix;

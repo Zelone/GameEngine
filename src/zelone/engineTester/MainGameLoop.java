@@ -3,27 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zelone.engineTester;
+package zelone.engineTester;
 
-import com.zelone.OBJConverter.ModelData;
-import com.zelone.OBJConverter.OBJFileLoader;
-import com.zelone.config.CameraData;
-import com.zelone.config.ConfigLoader;
-import com.zelone.config.EntityData;
-import com.zelone.config.TerrainsData;
-import com.zelone.engine.DisplayManager;
-import com.zelone.engine.Loader;
-import com.zelone.models.RawModel;
-import com.zelone.entities.Camera;
-import com.zelone.entities.Entity;
-import com.zelone.entities.Light;
-import com.zelone.models.TexturedModel;
-import com.zelone.render.MasterRenderer;
-import com.zelone.render.OBJLoader;
-import com.zelone.terrain.Terrain;
-import com.zelone.texture.ModelTexture;
-import com.zelone.texture.TerrainTexture;
-import com.zelone.texture.TerrainTexturePack;
+import zelone.OBJConverter.ModelData;
+import zelone.OBJConverter.OBJFileLoader;
+import zelone.config.CameraData;
+import zelone.config.ConfigLoader;
+import zelone.config.EntityData;
+import zelone.config.TerrainsData;
+import zelone.engine.DisplayManager;
+import zelone.engine.Loader;
+import zelone.models.RawModel;
+import zelone.entities.Camera;
+import zelone.entities.Entity;
+import zelone.entities.Light;
+import zelone.models.TexturedModel;
+import zelone.render.MasterRenderer;
+import zelone.render.OBJLoader;
+import zelone.terrain.Terrain;
+import zelone.texture.ModelTexture;
+import zelone.texture.TerrainTexture;
+import zelone.texture.TerrainTexturePack;
 import java.util.List;
 import java.util.ArrayList;
 import org.lwjgl.opengl.Display;
@@ -78,7 +78,7 @@ public class MainGameLoop {
                 Entity entity = new Entity(texturedModel, entityData.position, entityData.rotX, entityData.rotY, entityData.rotZ, entityData.scale);
                 entity.move(entityData.rotate, entityData.translate);
 
-                entities.add(entity);
+                entities.add(entity); 
             } else {
                 entities.add(new Entity(new TexturedModel(OBJLoader.loadObjModel(entityData.model, loader), new ModelTexture(loader.loadTexture(entityData.modelTexture)).setData(entityData)), entityData.position, entityData.rotX, entityData.rotY, entityData.rotZ, entityData.scale).move(entityData.rotate, entityData.translate));
             }
@@ -94,6 +94,7 @@ public class MainGameLoop {
         camera.setChangesOnKeyPressed(camdata.changesOnKeyPressed);
 
         MasterRenderer masterRenderer = new MasterRenderer();
+        System.out.println("Starts move");
 
         while (!Display.isCloseRequested()) {
             //entity.incresePostion(0, 0, -0.002f);

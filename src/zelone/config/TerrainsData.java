@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.zelone.config;
+package zelone.config;
 
 import java.lang.reflect.Field;
 
@@ -29,7 +29,7 @@ public class TerrainsData {
         this.backgroundSampler = backgroundSampler;
         this.blendMap = blendMap;
     }
-
+/*
     public TerrainsData(boolean internal, Object... ask) {
         Field[] f = CameraData.class.getFields();
         try {
@@ -63,5 +63,5 @@ public class TerrainsData {
             e.printStackTrace();
         }
     }
-
+*/
 }

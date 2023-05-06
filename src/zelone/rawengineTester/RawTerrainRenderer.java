@@ -3,13 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zelone.render;
+package zelone.rawengineTester;
 
-import com.zelone.models.RawModel;
-import com.zelone.shader.TerrainShader;
-import com.zelone.terrain.Terrain;
-import com.zelone.texture.TerrainTexturePack;
-import com.zelone.toolBox.Maths;
+import zelone.shader.TerrainShader;
+import zelone.toolBox.Maths;
 import java.util.List;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -22,95 +19,61 @@ import org.lwjgl.util.vector.Vector3f;
  *
  * @author Jhawar
  */
-public class TerrainRenderer
-{
+public class RawTerrainRenderer {
 
     private TerrainShader shader;
+//terrain = float[]{x,z,vaoID,indicesLength,rtexture,gtexture,btexture,backgroundTexture,blendMap}
 
-    public TerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix)
-    {
+    public RawTerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
-        shader.connectTextureSampler();
-        shader.start();
-        shader.loadProjectionMatrix(projectionMatrix);
-        shader.stop();
+        this.shader.connectTextureSampler();
+        this.shader.start();
+        this.shader.loadProjectionMatrix(projectionMatrix);
+        this.shader.stop();
     }
 
-    public void render(List<Terrain> terrains)
-    {
-        for (Terrain terrain : terrains) {
+    public void render(List<float[]> terrains) {
+        for (float[] terrain : terrains) {
 
-            prepareTerrain(terrain);
-            loadModelMatrix(terrain);
-            GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+            int vaoID = (int) terrain[2];
+            //binding VAO of the current model
+            GL30.glBindVertexArray(vaoID);
 
-            unBindTerrain();
+            //enabling levels of VAO needed
+            GL20.glEnableVertexAttribArray(0);
+            GL20.glEnableVertexAttribArray(1);
+            GL20.glEnableVertexAttribArray(2);
+
+            GL13.glActiveTexture(GL13.GL_TEXTURE0);
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, (int) terrain[7]);
+
+            GL13.glActiveTexture(GL13.GL_TEXTURE1);
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, (int) terrain[4]);
+
+            GL13.glActiveTexture(GL13.GL_TEXTURE2);
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, (int) terrain[5]);
+
+            GL13.glActiveTexture(GL13.GL_TEXTURE3);
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, (int) terrain[6]);
+
+            GL13.glActiveTexture(GL13.GL_TEXTURE4);
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, (int) terrain[8]);
+            shader.loadShineVariables(1, 0);
+            //activating and binding textures to triangles
+            //getting Transformation matrix of the current entity
+            Matrix4f transformationMatrix = Maths.createTransformationMatrix(new Vector3f(terrain[0], 0, terrain[1]), 0, 0, 0, 1);
+            //loading transformations, shine to shader
+            shader.loadTransformationMatrix(transformationMatrix);
+            //drawing each triangle
+            GL11.glDrawElements(GL11.GL_TRIANGLES, (int) terrain[3], GL11.GL_UNSIGNED_INT, 0);
+
+            //disabling levels of VAO 
+            GL20.glDisableVertexAttribArray(0);
+            GL20.glDisableVertexAttribArray(1);
+            GL20.glDisableVertexAttribArray(2);
+
+            //unbinding VAO of the current model
+            GL30.glBindVertexArray(0);
         }
-    }
-
-    private void prepareTerrain(Terrain terrain)
-    {
-        RawModel model = terrain.getModel();
-
-        //binding VAO of the current model
-        GL30.glBindVertexArray(model.getVaoID());
-
-        //enabling levels of VAO needed
-        GL20.glEnableVertexAttribArray(0);
-        GL20.glEnableVertexAttribArray(1);
-        GL20.glEnableVertexAttribArray(2);
-        bindtexture(terrain);
-        shader.loadShineVariables(1, 0);
-        //activating and binding textures to triangles
-
-    }
-
-    private TerrainTexturePack bindtexture(Terrain terrain)
-    {
-        TerrainTexturePack TexturePack = terrain.getTexture();
-        GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, TexturePack.getBackgroundSampler().getTextureID());
-        
-        GL13.glActiveTexture(GL13.GL_TEXTURE1);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, TexturePack.getrSampler().getTextureID());
-        
-        GL13.glActiveTexture(GL13.GL_TEXTURE2);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, TexturePack.getgSampler().getTextureID());
-        
-        GL13.glActiveTexture(GL13.GL_TEXTURE3);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, TexturePack.getbSampler().getTextureID());
-        
-        GL13.glActiveTexture(GL13.GL_TEXTURE4);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, terrain.getBlendMap().getTextureID());
-        
-
-        return TexturePack;
-    }
-
-    private void loadModelMatrix(Terrain terrain)
-    {
-        //getting Transformation matrix of the current entity
-        Matrix4f transformationMatrix = getTransformationMatrix(terrain);
-        //loading transformations, shine to shader
-        shader.loadTransformationMatrix(transformationMatrix);
-        //drawing each triangle
-
-    }
-
-    private void unBindTerrain()
-    {
-        //disabling levels of VAO 
-        GL20.glDisableVertexAttribArray(0);
-        GL20.glDisableVertexAttribArray(1);
-        GL20.glDisableVertexAttribArray(2);
-
-        //unbinding VAO of the current model
-        GL30.glBindVertexArray(0);
-
-    }
-
-    private Matrix4f getTransformationMatrix(Terrain terrain)
-    {
-        return Maths.createTransformationMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), 0, 0, 0, 1);
     }
 }

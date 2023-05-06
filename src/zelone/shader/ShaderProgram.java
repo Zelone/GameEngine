@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zelone.shader;
+package zelone.shader;
 
-import com.zelone.basic.Basic;
-import com.zelone.toolBox.Location;
+import zelone.toolBox.Location;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStreamReader;
@@ -21,7 +20,7 @@ import org.lwjgl.util.vector.Vector3f;
  *
  * @author Jhawar
  */
-public abstract class ShaderProgram extends Basic {
+public abstract class ShaderProgram  {
 
     private int programID;
     private int vertexShaderID;
@@ -81,9 +80,9 @@ public abstract class ShaderProgram extends Basic {
         GL20.glUseProgram(0);
     }
 
-    @Override
+    
     public void cleanUp() {
-        clean = true;
+        
         stop();
         GL20.glDetachShader(programID, vertexShaderID);
         GL20.glDetachShader(programID, fragmentShaderID);

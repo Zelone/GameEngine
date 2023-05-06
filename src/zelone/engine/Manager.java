@@ -3,21 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zelone.engine;
-
-import com.zelone.basic.Basic;
+package zelone.engine;
 
 /**
  *
  * @author Jhawar
  */
-public class Manager extends Basic
+public class Manager 
 {
 
-    @Override
+    
     public void cleanUp()
     {
-        clean=true;
+        
         DisplayManager.closeDisplay();
     }
     

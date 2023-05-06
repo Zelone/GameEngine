@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zelone.render;
+package zelone.render;
 
-import com.zelone.engine.Loader;
-import com.zelone.models.RawModel;
+import zelone.engine.Loader;
+import zelone.models.RawModel;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.File;

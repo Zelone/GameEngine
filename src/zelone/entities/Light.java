@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zelone.entities;
+package zelone.entities;
 
 import org.lwjgl.util.vector.Vector3f;
 
 /**
  *
- * @author Jhawar
+ * @author Zelone
  */
 public class Light
 {

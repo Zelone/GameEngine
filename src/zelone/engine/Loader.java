@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zelone.engine;
+package zelone.engine;
 
-import com.zelone.basic.Basic;
-import com.zelone.models.RawModel;
+import zelone.models.RawModel;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.FloatBuffer;
@@ -25,7 +24,7 @@ import org.newdawn.slick.opengl.TextureLoader;
  *
  * @author Jhawar
  */
-public class Loader extends Basic
+public class Loader 
 {
 
     private List<Integer> vaos = new ArrayList<Integer>();
@@ -114,10 +113,10 @@ public class Loader extends Basic
         return buffer;
     }
 
-    @Override
+   
     public void cleanUp()
     {
-        clean=true;
+        
         for (Integer vao : vaos) {
             GL30.glDeleteVertexArrays(vao);
         }

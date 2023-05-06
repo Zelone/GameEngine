@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zelone.render;
+package zelone.render;
 
-import com.zelone.entities.Entity;
-import com.zelone.models.RawModel;
-import com.zelone.models.TexturedModel;
-import com.zelone.shader.StaticShader;
-import com.zelone.texture.ModelTexture;
-import com.zelone.toolBox.Maths;
+import zelone.entities.Entity;
+import zelone.models.RawModel;
+import zelone.models.TexturedModel;
+import zelone.shader.StaticShader;
+import zelone.texture.ModelTexture;
+import zelone.toolBox.Maths;
 import java.util.List;
 import java.util.Map;
 import org.lwjgl.opengl.GL11;

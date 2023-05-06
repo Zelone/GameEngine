@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zelone.terrain;
+package zelone.terrain;
 
-import com.zelone.engine.Loader;
-import com.zelone.models.RawModel;
-import com.zelone.texture.TerrainTexture;
-import com.zelone.texture.TerrainTexturePack;
+import zelone.engine.Loader;
+import zelone.models.RawModel;
+import zelone.texture.TerrainTexture;
+import zelone.texture.TerrainTexturePack;
 
 /**
  *

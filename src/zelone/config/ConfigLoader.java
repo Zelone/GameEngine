@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.zelone.config;
+package zelone.config;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -64,7 +64,7 @@ public class ConfigLoader {
     }
 
     public ConfigLoader() {
-
+        /*
         try {
             JSONObject json = new JSONObject(new JSONTokener(new FileInputStream(new File("config/config.json"))));
 
@@ -102,7 +102,7 @@ public class ConfigLoader {
                 System.out.println("Some error in config file.");
                 f.delete();
                 System.exit(0);
-            } else {
+            } else {//TO be EDITED
                 System.out.println("Creating in config file at location /config/config.json with basic data");
                 try {
                     f.createNewFile();
@@ -141,6 +141,11 @@ public class ConfigLoader {
             }
             e.printStackTrace();
         }
+         */
+        cameraData = getCameraData();
+        terrainsDatas = getTerrains();
+        entityDatas = getEntities();
+
     }
 
     public TerrainsData[] getTerrains() {
@@ -148,11 +153,12 @@ public class ConfigLoader {
     }
 
     public EntityData[] getEntities() {
-        return new EntityData[]{new EntityData("stall", "stallTexture").setReflectivity(1).setShineDamper(10).setPosition(new Vector3f(0, 0, -25)).setRotate(new Vector3f(0, 1, 0))};
+        return new EntityData[]{new EntityData("dragon", "imageT").setReflectivity(1).setShineDamper(10).setPosition(new Vector3f(0, 0, 0)).setRotate(new Vector3f(0, 1, 0)),
+            new EntityData("stall", "stallTexture").setReflectivity(1).setShineDamper(10).setPosition(new Vector3f(0, 0, 15)).setRotate(new Vector3f(0, 1, 0))};
     }
 
     public CameraData getCameraData() {
-        return new CameraData(0, 0, 0, 0, new Vector3f(0, 0, 0));
+        return new CameraData(0, 0.5f, 0, new Vector3f(50, 5, 50), 0.05f);
     }
 
 }
