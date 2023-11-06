@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package zelone.rawengineTester;
+package zelone.objectengineTester;
 
 import zelone.engine.Engine;
 import zelone.render.MasterRenderer;
@@ -22,20 +22,30 @@ import org.lwjgl.util.vector.Vector3f;
  *
  * @author Jhawar
  */
-public class RawEntityRenderer {
+public class ObjectEntityRenderer {
 
     private StaticShader shader;
 // entity = float{texturedModel{vaoid,indiceslength,textureVaoID,shineDampner,reflectivity,hastransparency,usefakelighting},position{x,y,z},entityRotationScale{rotx, roty, rotz, scale},rotate{l,m,n},translate{x,y,z}}
 
-    public RawEntityRenderer(StaticShader shader, Matrix4f projectionMatrix) {
+    public ObjectEntityRenderer(StaticShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
         this.shader.start();
         this.shader.loadProjectionMatrix(projectionMatrix);
         this.shader.stop();
     }
 
-    public void render(Map<float[], List<float[][]>> entities) {
+  //  public void render(List<Entity> entities) {
+        
+  //  }
+
+        public void render(Entity[] entities) {
+            
+        }
+        
+        public void render(Map<float[], List<float[][]>> entities) {
+
         for (float[] model : entities.keySet()) {
+
             int VaoID = (int) model[0];
             int indiceslength = (int) model[1];
             int textureVaoID = (int) model[2];
@@ -43,11 +53,11 @@ public class RawEntityRenderer {
             boolean useFakeLighting = ((int) model[6] == 1) ? true : false;
 
             //binding VAO of the current model
-            Engine.bindVertexArray(VaoID); 
+            Engine.bindVertexArray(VaoID);
 
             //enabling levels of VAO needed
-            Engine.enableVaArray(0,1,2);
-            
+            Engine.enableVaArray(0, 1, 2);
+
             if (hasTransperancy) {
                 MasterRenderer.disableCulling();
             }
@@ -61,6 +71,8 @@ public class RawEntityRenderer {
             List<float[][]> batch = entities.get(model);
 
             for (float[][] entity : batch) {
+                // entity = float{texturedModel{vaoid,indiceslength,textureVaoID,shineDampner,reflectivity,hastransparency,usefakelighting},position{x,y,z},entityRotationScale{rotx, roty, rotz, scale},rotate{l,m,n},translate{x,y,z}}
+
                 //getting Transformation matrix of the current entity
                 float[] position = entity[1];
                 float[] entityRotationScale = entity[2];
@@ -121,7 +133,7 @@ public class RawEntityRenderer {
         int VaoID = (int) texturedModel[0];
         int indiceslength = (int) texturedModel[1];
         int textureVaoID = (int) texturedModel[2];
-        
+
         GL30.glBindVertexArray(VaoID);
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);

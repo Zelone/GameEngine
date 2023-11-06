@@ -30,7 +30,7 @@ public class Camera {
     }
 
     public void move() {
-             
+
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
             position.z -= changesOnKeyPressed;
         }
@@ -102,6 +102,10 @@ public class Camera {
 
     public float getYaw() {
         return yaw;
+    }
+
+    public float getChangesOnKeyPressed() {
+        return this.changesOnKeyPressed;
     }
 
     public void setPitch(float pitch) {

@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -51,6 +52,7 @@ public class RawExecutable {
     private Matrix4f projectionMatrix;
     private Map<float[], List<float[][]>> entities = new HashMap<float[], List<float[][]>>();
     private List<float[]> terrains = new ArrayList<float[]>();
+
     private final StaticShader shader;
     private final RawEntityRenderer renderer;
 
@@ -139,7 +141,7 @@ public class RawExecutable {
         }
         List<float[][]> entities = new ArrayList<float[][]>();
         {
-            String modelName = "stall";
+            String modelName = "dragon";
             String modelTextureName = "stallTexture";
             float shineDamper = 10;// 1;
             float reflectivity = 1;// 0;
@@ -150,7 +152,7 @@ public class RawExecutable {
             float rotz = 0;
             float scale = 1;
             float[] position = new float[]{0, 0, -25};
-            float[] rotate = new float[]{0, 1, 0};
+            float[] rotate = new float[]{0, 0, 0};
             float[] translate = new float[]{0, 0, 0};
             float entityRotationScale[] = new float[]{rotx, roty, rotz, scale};
 
@@ -159,8 +161,8 @@ public class RawExecutable {
         }
         entities.add(loadEntity("grassModel", "grassTexture", new float[]{1, 0, 3}, new float[]{0, 0, 0, 1}, new float[]{0, 0, 0}, new float[]{0, 0, 0}, 1, 0, true, true));
 
-        Light light = new Light(new Vector3f(0, 0, -1), new Vector3f(1, 1, 1));
-        Camera camera = new Camera();
+        float[] light = new float[]{0, 0, -1, 1, 1, 1};
+        float[] camera = cameraToFloat(new float[]{0, 0, 0}, 0, 0, 0, 0.02f);
 
         {
             Engine.enableCulling();
@@ -184,7 +186,7 @@ public class RawExecutable {
         while (!Display.isCloseRequested()) {
             //entity.incresePostion(0, 0, -0.002f);
             //entity.increseRotation(0, 1, 0);
-            camera.move();
+            movecamera(camera);
             // renderer.prepare();
             //gamelogic
             //render
@@ -259,17 +261,14 @@ public class RawExecutable {
     
     
     
-    
-    
-    
-    
-    
-    
      */
     private float[][] loadEntity(String modelName, String modelTextureName, float[] position, float[] entityRotationScale, float[] rotate, float[] translate) {
         return loadEntity(modelName, modelTextureName, position, entityRotationScale, rotate, translate, 1, 0, false, false);
     }
 
+    /**
+     * Uses Objects
+     */
     private float[][] loadEntity(String modelName, String modelTextureName, float[] position, float[] entityRotationScale, float[] rotate, float[] translate, float shineDamper, float reflectivity, boolean hasTransperancy, boolean useFakeLighting) {
         int indiceslength = 0;
         int modelVAOID;
@@ -301,8 +300,15 @@ public class RawExecutable {
         return entity;
     }
 
-    
+    private void render(float[] sun, float[] camera) {
+        render(lightToObject(sun), cameraToObject(camera));
+    }
+
+    /**
+     * Uses Objects
+     */
     private void render(Light sun, Camera camera) {
+
         prepare();
 
         terrainShader.start();
@@ -315,6 +321,7 @@ public class RawExecutable {
         terrains.clear();
 
         shader.start();
+        
         shader.loadFog(FOG_DENSITY, FOG_GRADIENT, SKY_RED, SKY_GREEN, SKY_BLUE);
         shader.loadLight(sun);
         shader.loadViewMatrix(camera);
@@ -343,6 +350,129 @@ public class RawExecutable {
         projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustum_length);
         projectionMatrix.m33 = 0;
         return projectionMatrix;
+    }
+
+    public float[] ResetCamera() {
+//        this.position = new Vector3f(0, 0, 0);
+//        this.pitch = 0;
+//        this.yaw = 0;
+//        this.roll = 0;
+//        this.changesOnKeyPressed = 0.02f;
+        return cameraToFloat(new float[]{0, 0, 0}, 0, 0, 0, 0.02f);
+    }
+
+    public float[] movecamera(float[] camera) {
+        return movecamera(new float[]{camera[0], camera[1], camera[2]}, camera[3], camera[4], camera[5], camera[6]);
+    }
+
+    public float[] movecamera(float[] position, float pitch, float yaw, float roll, float changesOnKeyPressed) {
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+            position[2] -= changesOnKeyPressed;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+            position[2] += changesOnKeyPressed;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+            position[0] += changesOnKeyPressed;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+            position[0] -= changesOnKeyPressed;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+            position[1] += changesOnKeyPressed;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_CAPITAL)) {
+            position[1] -= changesOnKeyPressed;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_V)) {
+            yaw += changesOnKeyPressed;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
+            yaw -= changesOnKeyPressed;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
+            roll += changesOnKeyPressed;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_G)) {
+            roll -= changesOnKeyPressed;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_Y)) {
+            pitch += changesOnKeyPressed;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_T)) {
+            pitch -= changesOnKeyPressed;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+            float[] camera = ResetCamera();
+            position[0] = camera[0];
+            position[1] = camera[1];
+            position[2] = camera[2];
+            pitch = camera[3];
+            yaw = camera[4];
+            roll = camera[5];
+            changesOnKeyPressed = camera[6];
+            //System.exit(0);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_X)) {
+            changesOnKeyPressed += 0.01;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_Z)) {
+            changesOnKeyPressed -= 0.01;
+        }
+        return cameraToFloat(position, pitch, yaw, roll, changesOnKeyPressed);
+    }
+
+    public float[] cameraToFloat(float[] position, float pitch, float yaw, float roll, float changesOnKeyPressed) {
+        return new float[]{position[0], position[1], position[2], pitch, yaw, roll, changesOnKeyPressed};
+    }
+
+    /**
+     * Uses Objects
+     */
+    public Camera cameraToObject(float[] camera) {
+
+        Camera cam = new Camera();
+        cam.setPosition(new Vector3f(camera[0], camera[1], camera[2]));
+        cam.setPitch(camera[3]);
+        cam.setYaw(camera[4]);
+        cam.setRoll(camera[5]);
+        cam.setChangesOnKeyPressed(camera[6]);
+        return cam;
+    }
+
+    /**
+     * Uses Objects
+     */
+    public float[] cameraToFloat(Camera camera) {
+        Vector3f v = camera.getPosition();
+        return new float[]{v.x, v.y, v.z, camera.getPitch(), camera.getYaw(), camera.getRoll(), camera.getChangesOnKeyPressed()};
+    }
+
+    public float[] lightToFloat(float[] position, float[] color) {
+        return new float[]{position[0], position[1], position[2], color[0], color[1], color[2]};
+    }
+
+    /**
+     * Uses Objects
+     */
+    public float[] lightToFloat(Light light) {
+        return new float[]{light.getPosition().x, light.getPosition().y, light.getPosition().z, light.getColor().x, light.getColor().y, light.getColor().z};
+    }
+
+    /**
+     * Uses Objects
+     */
+    public Light lightToObject(float[] light) {
+        return new Light(new Vector3f(light[0], light[1], light[2]), new Vector3f(light[0], light[1], light[2]));
     }
 
     public static void main(String[] args) {

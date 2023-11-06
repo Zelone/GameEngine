@@ -21,7 +21,9 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 public class OBJFileLoader {
-
+    static{
+        System.out.println("zelone.OBJConverter.OBJFileLoader.static()");
+    }
     private static final String RES_LOC = "res/";
 
     public static ModelData loadOBJ(String objFileName) {

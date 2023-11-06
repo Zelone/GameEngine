@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package zelone.rawengineTester;
+package zelone.objectengineTester;
 
 import zelone.shader.TerrainShader;
 import zelone.toolBox.Maths;
@@ -19,12 +19,12 @@ import org.lwjgl.util.vector.Vector3f;
  *
  * @author Jhawar
  */
-public class RawTerrainRenderer {
+public class ObjectTerrainRenderer {
 
     private TerrainShader shader;
 //terrain = float[]{x,z,vaoID,indicesLength,rtexture,gtexture,btexture,backgroundTexture,blendMap}
 
-    public RawTerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix) {
+    public ObjectTerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
         this.shader.connectTextureSampler();
         this.shader.start();
@@ -34,6 +34,7 @@ public class RawTerrainRenderer {
 
     public void render(List<float[]> terrains) {
         for (float[] terrain : terrains) {
+            //  terrain = float[]{x,z,vaoID,indicesLength,rtexture,gtexture,btexture,backgroundTexture,blendMap}
 
             int vaoID = (int) terrain[2];
             //binding VAO of the current model

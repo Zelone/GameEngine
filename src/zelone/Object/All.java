@@ -10,7 +10,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.TreeMap;
 
 /**
  *
@@ -46,22 +45,22 @@ public class All {
 
 class Tree<V> {
 
-    Tree next;
+    Tree<V> next;
     V value;
-    ArrayList<Tree> multipleNext;
+    ArrayList<Tree<V>> multipleNext;
 
-    void add(V value) {
+    public void add(V value) {
         if (this.value == null) {
             this.value = value;
             return;
         }
         if (next == null) {
-            next = new Tree();
+            next = new Tree<>();
         }
         next.add(value);
     }
 
-    void addmultiple(V parent, V child) {
+    public void addmultiple(V parent, V child) {
         if(value==null){
             this.value=parent;
             addmultiple(parent, child);
@@ -69,14 +68,14 @@ class Tree<V> {
         }
         if (value == parent) {
             if (multipleNext == null) {
-                multipleNext = new ArrayList<Tree>();
+                multipleNext = new ArrayList<>();
             }
-            Tree t = new Tree();
+            Tree<V> t = new Tree<>();
             t.addmultiple(parent,child);
             multipleNext.add(t);
             return;
         }
-        for (Tree tree : multipleNext) {
+        for (Tree<V> tree : multipleNext) {
             if (tree.value == parent) {
                 tree.addmultiple(parent, child);
                 return;
@@ -87,7 +86,7 @@ class Tree<V> {
 
 }
 
-class SystemObject implements Serializable, Component {
+class SystemObject implements Component {
 
     public String name;
     //Transform are for lower level Physical Addition to SystemObject
@@ -116,7 +115,7 @@ class SystemObject implements Serializable, Component {
             System.out.println("Parent:" + soParent.name + " Child:" + name);
             soParent.add(this);
         }
-        components = new ArrayList<Component>();
+        components = new ArrayList<>();
     }
 
     public boolean add(SystemObject so) {

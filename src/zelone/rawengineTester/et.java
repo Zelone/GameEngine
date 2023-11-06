@@ -106,18 +106,16 @@ public class et extends javax.swing.JFrame {
         setEnabledGame(false);
         MainGameLoop mg = new MainGameLoop();
         setEnabledGame(true);
-// TODO add your handling code here:
     }//GEN-LAST:event_MainGameLoopActionPerformed
 
     private void RawGameLoopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RawGameLoopActionPerformed
       setEnabledGame(false);  
       RawExecutable rg = new RawExecutable();
         setEnabledGame(true);
-// TODO add your handling code here:
     }//GEN-LAST:event_RawGameLoopActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        System.exit(0);        // TODO add your handling code here:
+        System.exit(0);        
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
