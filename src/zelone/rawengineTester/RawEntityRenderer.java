@@ -73,12 +73,12 @@ public class RawEntityRenderer {
             }
 
             MasterRenderer.enableCulling();
-            //disabling levels of VAO 
+            //disabling levels of VAO (shader)
             GL20.glDisableVertexAttribArray(0);
             GL20.glDisableVertexAttribArray(1);
             GL20.glDisableVertexAttribArray(2);
 
-            //unbinding VAO of the current model
+            //unbinding VAO of the current model (MODEL)
             GL30.glBindVertexArray(0);
         }
     }
