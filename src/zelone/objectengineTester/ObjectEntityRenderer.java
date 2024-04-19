@@ -38,7 +38,7 @@ public class ObjectEntityRenderer {
         
   //  }
 
-        public void render(Entity[] entities) {
+        public void render(List<Entity> entities) {
             
         }
         

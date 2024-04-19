@@ -32,7 +32,14 @@ public class ObjectTerrainRenderer {
         this.shader.stop();
     }
 
+    public boolean render(List<Terrain> terrains) {
+        
+        return false;
+
+    }
+
     public void render(List<float[]> terrains) {
+
         for (float[] terrain : terrains) {
             //  terrain = float[]{x,z,vaoID,indicesLength,rtexture,gtexture,btexture,backgroundTexture,blendMap}
 

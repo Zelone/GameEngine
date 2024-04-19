@@ -12,7 +12,9 @@ import zelone.entities.Light;
 import zelone.shader.StaticShader;
 import zelone.shader.TerrainShader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -191,8 +193,9 @@ public class ObjectExecutable {
                 //
                 //
                 //CANNOT RENDER FLOATS use Objects as in original FILE
-                float[] model = entity1[0];
-                List<float[][]> batch = this.entities.get(model);
+                List<A> entities = ((ModelObject)entity1.getObjectByID(ModelObject.createdummyInstance())).modelUserObjects;
+                float[] model = entity1.getObjectID(new ModelObject());
+                List<float[][]> batch = this.entities.get(0);
 
                 if (batch != null) {
                     batch.add(entity1);
@@ -464,6 +467,8 @@ interface AA {
 
     public B getObject(int i);
 
+    public <G extends B> B getObjectByID(G type);
+
     public void render();
 
     public void close();
@@ -518,6 +523,11 @@ abstract class A implements AA {
     @Override
     public boolean removeObject(B obj) {
         return property.remove(obj);
+    }
+
+    @Override
+    public <G extends B> B getObjectByID(G type) {
+        return property.stream().filter((t) -> t.getClass().isInstance(type)).toList().get(0);
     }
 
     @Override
@@ -654,9 +664,14 @@ class ModelObject extends B {
     int modelVAOID;
     int indiceslength = 0;
     static Map<String, ModelObject> map;
+    List< A> modelUserObjects;
 
     static {
         map = new HashMap<String, ModelObject>();
+    }
+
+    public static ModelObject createdummyInstance() {
+        return new ModelObject();
     }
 
     public static ModelObject createModelObject(String modelName) throws Exception {
@@ -665,6 +680,17 @@ class ModelObject extends B {
         } else {
             return new ModelObject(modelName);
         }
+    }
+
+    @Override
+    public void setObject(A object) throws Exception {
+        if (modelUserObjects == null) {
+            modelUserObjects = new LinkedList<>();
+        }
+        modelUserObjects.add(object);
+    }
+
+    private ModelObject() {
     }
 
     private ModelObject(String modelName) throws Exception {
@@ -790,10 +816,17 @@ class Terrain extends A {
     public static TerrainShader shader;
 
     public Terrain() {
+        shader = new TerrainShader();
     }
 
     @Override
     public void tick() {
+        property.forEach(new Consumer<B>() {
+            @Override
+            public void accept(B t) {
+                t.tick();
+            }
+        });
     }
 
     @Override
