@@ -153,8 +153,9 @@ public class ConfigLoader {
     }
 
     public EntityData[] getEntities() {
-        return new EntityData[]{new EntityData("dragon", "imageT").setReflectivity(1).setShineDamper(10).setPosition(new Vector3f(0, 0, 0)).setRotate(new Vector3f(0, 1, 0)),
-            new EntityData("stall", "stallTexture").setReflectivity(1).setShineDamper(10).setPosition(new Vector3f(0, 0, 15)).setRotate(new Vector3f(0, 1, 0))};
+        return new EntityData[]{
+            new EntityData("lowPolyTree", "lowPolyTree").setReflectivity(1).setShineDamper(10).setPosition(new Vector3f(0, 0, 0)).setRotate(new Vector3f(0, 0, 0)),
+            new EntityData("stall", "stallTexture").setReflectivity(1).setShineDamper(10).setPosition(new Vector3f(0, 0, 15)).setRotate(new Vector3f(0, 0, 0))};
     }
 
     public CameraData getCameraData() {

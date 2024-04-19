@@ -6,6 +6,7 @@
 package zelone.entities;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -17,6 +18,7 @@ public class Camera {
     private Vector3f position = new Vector3f(0, 0, 0);
     private float pitch, yaw, roll;
     private float changesOnKeyPressed = 0.02f;
+    private float changesOnMouseMovement = 4f;
 
     public Camera() {
     }
@@ -27,23 +29,42 @@ public class Camera {
         this.yaw = 0;
         this.roll = 0;
         this.changesOnKeyPressed = 0.02f;
+        this.changesOnMouseMovement = 4.0f;
     }
 
     public void move() {
-
+        if(Mouse.isGrabbed()){
+        yaw += Mouse.getDX() / changesOnMouseMovement;
+        pitch -= Mouse.getDY() / changesOnMouseMovement;
+        if (pitch >= 90) {
+            pitch = 90;
+        } else if (pitch <= -90) {
+            pitch = -90;
+        }
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            position.z -= changesOnKeyPressed;
+            position.z += -(float) Math.cos(Math.toRadians(yaw)) * changesOnKeyPressed;
+            position.x += (float) Math.sin(Math.toRadians(yaw)) * changesOnKeyPressed;
+            position.y -= (float) Math.sin(Math.toRadians(pitch)) * changesOnKeyPressed;
+
+//position.z -= changesOnKeyPressed;
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            position.z += changesOnKeyPressed;
+            position.z -= -(float) Math.cos(Math.toRadians(yaw)) * changesOnKeyPressed;
+            position.x -= (float) Math.sin(Math.toRadians(yaw)) * changesOnKeyPressed;
+            position.y += (float) Math.sin(Math.toRadians(pitch)) * changesOnKeyPressed;
+//position.z += changesOnKeyPressed;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            position.x += changesOnKeyPressed;
+            position.z += (float) Math.sin(Math.toRadians(yaw)) * changesOnKeyPressed;
+            position.x += (float) Math.cos(Math.toRadians(yaw)) * changesOnKeyPressed;
+            //position.x += changesOnKeyPressed;
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            position.x -= changesOnKeyPressed;
+            position.z -= (float) Math.sin(Math.toRadians(yaw)) * changesOnKeyPressed;
+            position.x -= (float) Math.cos(Math.toRadians(yaw)) * changesOnKeyPressed;
+            //position.x -= changesOnKeyPressed;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
             position.y += changesOnKeyPressed;
@@ -74,16 +95,26 @@ public class Camera {
         if (Keyboard.isKeyDown(Keyboard.KEY_T)) {
             pitch -= changesOnKeyPressed;
         }
-        if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
-            ResetCamera();
-            //System.exit(0);
-        }
         if (Keyboard.isKeyDown(Keyboard.KEY_X)) {
             changesOnKeyPressed += 0.01;
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_Z)) {
             changesOnKeyPressed -= 0.01;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
+            changesOnMouseMovement += 0.01;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
+            changesOnMouseMovement -= 0.01;
+            System.err.println("Mouse:" + changesOnMouseMovement);
+        }
+    }
+        
+        if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+            Mouse.setGrabbed(!Mouse.isGrabbed());
+            //System.exit(0);
         }
 
     }

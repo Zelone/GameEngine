@@ -15,18 +15,28 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 public class OBJFileLoader {
-    static{
+
+    static {
         System.out.println("zelone.OBJConverter.OBJFileLoader.static()");
     }
     private static final String RES_LOC = "res/";
 
+    static {
+        cache = new HashMap<>();
+    }
+    private static HashMap<String, ModelData> cache;
+
     public static ModelData loadOBJ(String objFileName) {
+        if (cache.containsKey(objFileName)) {
+            return cache.get(objFileName);
+        }
         FileReader isr = null;
         File objFile = new File(RES_LOC + objFileName + ".obj");
         try {
@@ -89,6 +99,7 @@ public class OBJFileLoader {
         int[] indicesArray = convertIndicesListToArray(indices);
         ModelData data = new ModelData(verticesArray, texturesArray, normalsArray, indicesArray,
                 furthest);
+        cache.put(objFileName, data);
         return data;
     }
 

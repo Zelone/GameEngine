@@ -26,6 +26,8 @@ import zelone.texture.TerrainTexture;
 import zelone.texture.TerrainTexturePack;
 import java.util.List;
 import java.util.ArrayList;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -39,6 +41,11 @@ public class MainGameLoop {
 
         DisplayManager.createDisplay();
         Loader loader = new Loader();
+        try {
+            Mouse.create();
+        } catch (LWJGLException ex) {
+            ex.printStackTrace();
+        }
 
         // StaticShader shader = new StaticShader();
         // EntityRenderer renderer = new EntityRenderer(shader);
@@ -78,7 +85,7 @@ public class MainGameLoop {
                 Entity entity = new Entity(texturedModel, entityData.position, entityData.rotX, entityData.rotY, entityData.rotZ, entityData.scale);
                 entity.move(entityData.rotate, entityData.translate);
 
-                entities.add(entity); 
+                entities.add(entity);
             } else {
                 entities.add(new Entity(new TexturedModel(OBJLoader.loadObjModel(entityData.model, loader), new ModelTexture(loader.loadTexture(entityData.modelTexture)).setData(entityData)), entityData.position, entityData.rotX, entityData.rotY, entityData.rotZ, entityData.scale).move(entityData.rotate, entityData.translate));
             }
@@ -95,6 +102,7 @@ public class MainGameLoop {
 
         MasterRenderer masterRenderer = new MasterRenderer();
         System.out.println("Starts move");
+        Mouse.setGrabbed(true);
 
         while (!Display.isCloseRequested()) {
             //entity.incresePostion(0, 0, -0.002f);
@@ -122,7 +130,9 @@ public class MainGameLoop {
         //shader.cleanUp();
         masterRenderer.cleanUp();
         loader.cleanUp();
+        Mouse.destroy();
         DisplayManager.closeDisplay();
+
     }
 
 }

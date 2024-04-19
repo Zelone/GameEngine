@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -20,11 +21,17 @@ import org.lwjgl.util.vector.Vector3f;
  *
  * @author Jhawar
  */
-public class OBJLoader
-{
+public class OBJLoader {
 
-    public static RawModel loadObjModel(String fileName, Loader loader)
-    {
+    static {
+        cache = new HashMap<>();
+    }
+    private static HashMap<String, RawModel> cache;
+
+    public static RawModel loadObjModel(String fileName, Loader loader) {
+        if (cache.containsKey(fileName)) {
+            return cache.get(fileName);
+        }
         FileReader fr = null;
         try {
             fr = new FileReader(new File("res/" + fileName + ".obj"));
@@ -98,12 +105,12 @@ public class OBJLoader
             indiceArray[i] = indices.get(i);
 
         }
-
-        return loader.loadToVAO(verticesArray, texturArray, normalArray, indiceArray);
+        RawModel rawModel = loader.loadToVAO(verticesArray, texturArray, normalArray, indiceArray);
+        cache.put(fileName, rawModel);
+        return rawModel;
     }
 
-    private static void processVertex(String[] vertexData, List<Integer> indices, List<Vector2f> textures, List<Vector3f> normals, float[] textureArray, float[] normalArray)
-    {
+    private static void processVertex(String[] vertexData, List<Integer> indices, List<Vector2f> textures, List<Vector3f> normals, float[] textureArray, float[] normalArray) {
         int currentVertexPointer = Integer.parseInt(vertexData[0]) - 1;
 
         indices.add(currentVertexPointer);
