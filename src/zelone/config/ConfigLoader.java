@@ -4,14 +4,9 @@
  */
 package zelone.config;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -155,7 +150,8 @@ public class ConfigLoader {
     public EntityData[] getEntities() {
         return new EntityData[]{
             new EntityData("lowPolyTree", "lowPolyTree").setReflectivity(1).setShineDamper(10).setPosition(new Vector3f(0, 0, 0)).setRotate(new Vector3f(0, 0, 0)),
-            new EntityData("stall", "stallTexture").setReflectivity(1).setShineDamper(10).setPosition(new Vector3f(0, 0, 15)).setRotate(new Vector3f(0, 0, 0))};
+            new EntityData("stall", "stallTexture").setReflectivity(1).setShineDamper(10).setPosition(new Vector3f(0, 0, 15)).setRotate(new Vector3f(0, 0, 0)),
+            new EntityData("Town", "Town").setReflectivity(1).setShineDamper(10).setScale(3.0f).setPosition(new Vector3f(0, 0, 30)).setRotate(new Vector3f(0, 0.04f, 0))};
     }
 
     public CameraData getCameraData() {

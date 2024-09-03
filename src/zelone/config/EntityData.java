@@ -4,8 +4,15 @@
  */
 package zelone.config;
 
-import java.lang.reflect.Field;
 import org.lwjgl.util.vector.Vector3f;
+import zelone.OBJConverter.ModelData;
+import zelone.OBJConverter.OBJFileLoader;
+import zelone.engine.Loader;
+import zelone.entities.Entity;
+import zelone.models.RawModel;
+import zelone.models.TexturedModel;
+import zelone.render.OBJLoader;
+import zelone.texture.ModelTexture;
 
 /**
  *
@@ -153,6 +160,25 @@ public class EntityData {
     public EntityData setChangeScale(float changeScale) {
         this.changeScale = changeScale;
         return this;
+    }
+    
+    public Entity toEntity( Loader loader) {
+        if (this.TypeSetting) {
+            
+            ModelData data = OBJFileLoader.loadOBJ(this.model);
+            
+            RawModel model = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());//OBJLoader.loadObjModel("stall", loader);
+            ModelTexture texture = new ModelTexture(loader.loadTexture(this.modelTexture));
+            texture.setData(this);
+            TexturedModel texturedModel = new TexturedModel(model, texture);
+            
+            Entity entity = new Entity(texturedModel, this.position, this.rotX, this.rotY, this.rotZ, this.scale);
+            entity.move(this.rotate, this.translate);
+            
+            return entity;
+        } else {
+            return new Entity(new TexturedModel(OBJLoader.loadObjModel(this.model, loader), new ModelTexture(loader.loadTexture(this.modelTexture)).setData(this)), this.position, this.rotX, this.rotY, this.rotZ, this.scale).move(this.rotate, this.translate);
+        }
     }
 
 }

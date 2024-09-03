@@ -8,8 +8,7 @@ package zelone.texture;
 /**
  *
  * @author Jhawar
- */
-public class TerrainTexture {
+ */public class TerrainTexture {
 
     private int TextureID;
 

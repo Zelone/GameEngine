@@ -193,7 +193,7 @@ public class ObjectExecutable {
                 //
                 //
                 //CANNOT RENDER FLOATS use Objects as in original FILE
-                List<A> entities = ((ModelObject)entity1.getObjectByID(ModelObject.createdummyInstance())).modelUserObjects;
+                List<A> entities = ((ModelObject) entity1.getObjectByID(ModelObject.createdummyInstance())).modelUserObjects;
                 float[] model = entity1.getObjectID(new ModelObject());
                 List<float[][]> batch = this.entities.get(0);
 
@@ -478,7 +478,7 @@ interface AA {
 
 abstract class A implements AA {
 
-    ArrayList<B> property = new ArrayList<>();
+    ArrayList<B> property = new ArrayList<>(); // sizeof(B) * length 
     ArrayList<String> propertyList = new ArrayList<>();
 
     static {
@@ -499,6 +499,15 @@ abstract class A implements AA {
 
     }
 
+    /**
+     *
+     * ref1 ref ref
+     *
+     *
+     * stack [ref1:value1,ref:value,ref:value]
+     *
+     * size of class [bits] -----> ref*size(int)
+     */
     @Override
     public boolean addObject(B obj) throws Exception {
         try {
@@ -569,9 +578,9 @@ class ERROR {
 
 abstract class B implements BB {
 
-    public A object;
-    String name = ERROR.ERRORstr;
-    private boolean objectBoolean = true;
+    public A object; // ref size(int) -> ref int
+    String name = ERROR.ERRORstr; // ref size(String) size(char)*length()
+    private boolean objectBoolean = true; // ref size(int)-> 1bite
 
     public B() throws Exception {
         if (!objectBoolean) {
@@ -674,6 +683,11 @@ class ModelObject extends B {
         return new ModelObject();
     }
 
+    public static void createModelObjects(String ... modelNames)throws Exception{
+        for (String modelName : modelNames) {
+            createModelObject(modelName);
+        }
+    }
     public static ModelObject createModelObject(String modelName) throws Exception {
         if (map.containsKey(modelName)) {
             return map.get(modelName);
@@ -699,7 +713,7 @@ class ModelObject extends B {
         int[] indices = data.getIndices();
         indiceslength = indices.length;
         modelVAOID = Engine.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), indices);//OBJLoader.loadObjModel("stall", loader);
-
+        map.put(modelName, this);
     }
 
     @Override
@@ -739,6 +753,7 @@ class TexturedModelObject extends B {
 
     @Override
     public void tick() {
+        
     }
 }
 

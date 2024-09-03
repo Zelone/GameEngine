@@ -4,7 +4,10 @@
  */
 package zelone.config;
 
-import java.lang.reflect.Field;
+import zelone.engine.Loader;
+import zelone.terrain.Terrain;
+import zelone.texture.TerrainTexture;
+import zelone.texture.TerrainTexturePack;
 
 /**
  *
@@ -29,7 +32,8 @@ public class TerrainsData {
         this.backgroundSampler = backgroundSampler;
         this.blendMap = blendMap;
     }
-/*
+
+    /*
     public TerrainsData(boolean internal, Object... ask) {
         Field[] f = CameraData.class.getFields();
         try {
@@ -63,5 +67,14 @@ public class TerrainsData {
             e.printStackTrace();
         }
     }
-*/
+     */
+
+    public Terrain toTerrain( Loader loader) {
+        return new Terrain(this.gridX, this.gridZ, loader, new TerrainTexturePack(
+                new TerrainTexture(loader.loadTexture(this.rSampler)),
+                new TerrainTexture(loader.loadTexture(this.gSampler)),
+                new TerrainTexture(loader.loadTexture(this.bSampler)),
+                new TerrainTexture(loader.loadTexture(this.backgroundSampler))),
+                new TerrainTexture(loader.loadTexture(this.blendMap)));
+    }
 }

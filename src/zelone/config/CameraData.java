@@ -6,6 +6,7 @@ package zelone.config;
 
 import java.lang.reflect.Field;
 import org.lwjgl.util.vector.Vector3f;
+import zelone.entities.Camera;
 
 /**
  *
@@ -60,6 +61,16 @@ public class CameraData {
         for (Field f : ff) {
             System.out.println(f.getGenericType().getTypeName() + ":" + f.getName());
         }
+    }
+    
+    public Camera toCamera() {
+        Camera camera = new Camera();
+        camera.setPitch(this.pitch);
+        camera.setPosition(this.position);
+        camera.setRoll(this.roll);
+        camera.setYaw(this.yaw);
+        camera.setChangesOnKeyPressed(this.changesOnKeyPressed);
+        return camera;
     }
 
 }

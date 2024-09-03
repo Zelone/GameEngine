@@ -33,85 +33,85 @@ public class Camera {
     }
 
     public void move() {
-        if(Mouse.isGrabbed()){
-        yaw += Mouse.getDX() / changesOnMouseMovement;
-        pitch -= Mouse.getDY() / changesOnMouseMovement;
-        if (pitch >= 90) {
-            pitch = 90;
-        } else if (pitch <= -90) {
-            pitch = -90;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            position.z += -(float) Math.cos(Math.toRadians(yaw)) * changesOnKeyPressed;
-            position.x += (float) Math.sin(Math.toRadians(yaw)) * changesOnKeyPressed;
-            position.y -= (float) Math.sin(Math.toRadians(pitch)) * changesOnKeyPressed;
+        if (Mouse.isGrabbed()) {
+            yaw += Mouse.getDX() / changesOnMouseMovement;
+            pitch -= Mouse.getDY() / changesOnMouseMovement;
+            if (pitch >= 90) {
+                pitch = 90;
+            } else if (pitch <= -90) {
+                pitch = -90;
+            }
+            if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+                position.z += -(float) Math.cos(Math.toRadians(yaw)) * changesOnKeyPressed;
+                position.x += (float) Math.sin(Math.toRadians(yaw)) * changesOnKeyPressed;
+                position.y -= (float) Math.sin(Math.toRadians(pitch)) * changesOnKeyPressed;
 
 //position.z -= changesOnKeyPressed;
-        }
+            }
 
-        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            position.z -= -(float) Math.cos(Math.toRadians(yaw)) * changesOnKeyPressed;
-            position.x -= (float) Math.sin(Math.toRadians(yaw)) * changesOnKeyPressed;
-            position.y += (float) Math.sin(Math.toRadians(pitch)) * changesOnKeyPressed;
+            if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+                position.z -= -(float) Math.cos(Math.toRadians(yaw)) * changesOnKeyPressed;
+                position.x -= (float) Math.sin(Math.toRadians(yaw)) * changesOnKeyPressed;
+                position.y += (float) Math.sin(Math.toRadians(pitch)) * changesOnKeyPressed;
 //position.z += changesOnKeyPressed;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            position.z += (float) Math.sin(Math.toRadians(yaw)) * changesOnKeyPressed;
-            position.x += (float) Math.cos(Math.toRadians(yaw)) * changesOnKeyPressed;
-            //position.x += changesOnKeyPressed;
+            }
+            if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+                position.z += (float) Math.sin(Math.toRadians(yaw)) * changesOnKeyPressed;
+                position.x += (float) Math.cos(Math.toRadians(yaw)) * changesOnKeyPressed;
+                //position.x += changesOnKeyPressed;
+            }
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+                position.z -= (float) Math.sin(Math.toRadians(yaw)) * changesOnKeyPressed;
+                position.x -= (float) Math.cos(Math.toRadians(yaw)) * changesOnKeyPressed;
+                //position.x -= changesOnKeyPressed;
+            }
+            if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+                position.y += changesOnKeyPressed;
+            }
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_CAPITAL)) {
+                position.y -= changesOnKeyPressed;
+            }
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_V)) {
+                yaw += changesOnKeyPressed;
+            }
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
+                yaw -= changesOnKeyPressed;
+            }
+            if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
+                roll += changesOnKeyPressed;
+            }
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_G)) {
+                roll -= changesOnKeyPressed;
+            }
+            if (Keyboard.isKeyDown(Keyboard.KEY_Y)) {
+                pitch += changesOnKeyPressed;
+            }
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_T)) {
+                pitch -= changesOnKeyPressed;
+            }
+            if (Keyboard.isKeyDown(Keyboard.KEY_X)) {
+                changesOnKeyPressed += 0.01;
+            }
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_Z)) {
+                changesOnKeyPressed -= 0.01;
+            }
+            if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
+                changesOnMouseMovement += 0.01;
+            }
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
+                changesOnMouseMovement -= 0.01;
+                System.err.println("Mouse:" + changesOnMouseMovement);
+            }
         }
 
-        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            position.z -= (float) Math.sin(Math.toRadians(yaw)) * changesOnKeyPressed;
-            position.x -= (float) Math.cos(Math.toRadians(yaw)) * changesOnKeyPressed;
-            //position.x -= changesOnKeyPressed;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-            position.y += changesOnKeyPressed;
-        }
-
-        if (Keyboard.isKeyDown(Keyboard.KEY_CAPITAL)) {
-            position.y -= changesOnKeyPressed;
-        }
-
-        if (Keyboard.isKeyDown(Keyboard.KEY_V)) {
-            yaw += changesOnKeyPressed;
-        }
-
-        if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
-            yaw -= changesOnKeyPressed;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
-            roll += changesOnKeyPressed;
-        }
-
-        if (Keyboard.isKeyDown(Keyboard.KEY_G)) {
-            roll -= changesOnKeyPressed;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_Y)) {
-            pitch += changesOnKeyPressed;
-        }
-
-        if (Keyboard.isKeyDown(Keyboard.KEY_T)) {
-            pitch -= changesOnKeyPressed;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_X)) {
-            changesOnKeyPressed += 0.01;
-        }
-
-        if (Keyboard.isKeyDown(Keyboard.KEY_Z)) {
-            changesOnKeyPressed -= 0.01;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
-            changesOnMouseMovement += 0.01;
-        }
-
-        if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
-            changesOnMouseMovement -= 0.01;
-            System.err.println("Mouse:" + changesOnMouseMovement);
-        }
-    }
-        
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             Mouse.setGrabbed(!Mouse.isGrabbed());
             //System.exit(0);

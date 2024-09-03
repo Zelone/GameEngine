@@ -33,11 +33,17 @@ public class ObjectTerrainRenderer {
     }
 
     public boolean render(List<Terrain> terrains) {
-        
+
         return false;
 
     }
 
+    /**
+     *
+     * @param terrains
+     * @deprecated
+     */
+    @Deprecated
     public void render(List<float[]> terrains) {
 
         for (float[] terrain : terrains) {
